@@ -2,11 +2,14 @@
 {% load i18n %}
 
 {% block newsblog_content %}
-    {% for article in article_list %}
-        {% include "aldryn_newsblog/includes/article.html" %}
-    {% empty %}
-        <p>{% trans "No items available" %}</p>
-    {% endfor %}
-
-    {% include "aldryn_newsblog/includes/pagination.html" %}
+    <div class="djangocms-newsblog-content">
+        <div class="djangocms-newsblog-article-list">
+            {% for article in article_list %}
+                {% include "aldryn_newsblog/includes/article.html" with display_type="articles-list" %}
+            {% empty %}
+                <p>{% trans "No items available" %}</p>
+            {% endfor %}
+            {% include "aldryn_newsblog/includes/pagination.html" %}
+        </div>
+    </div>
 {% endblock %}

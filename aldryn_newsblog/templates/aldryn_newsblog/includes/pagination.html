@@ -3,7 +3,7 @@
 {% if is_paginated %}
     <ul class="pagination">
         {% if page_obj.has_previous %}
-            <li>
+            <li class="previous-page">
                 <a href="?page={{ page_obj.previous_page_number }}">
                     {% trans "Previous" %}
                 </a>
@@ -12,32 +12,32 @@
 
         {% if paginator.num_pages > pagination.pages_start %}
             {% if page_obj.number > pagination.pages_visible_total %}
-                <li><a href="?page={{ page_obj.number|add:pagination.pages_visible_total_negative }}">...</a></li>
+                <li class="pages-visible-total-negative"><a href="?page={{ page_obj.number|add:pagination.pages_visible_total_negative }}">...</a></li>
             {% endif %}
 
             {% for num in paginator.page_range %}
                 {% if num == page_obj.number %}
                     <li class="active"><span>{{ num }}</span></li>
                 {% elif num > page_obj.number|add:pagination.pages_visible_total_negative and num < page_obj.number|add:pagination.pages_visible_total %}
-                    <li><a href="?page={{ num }}">{{ num }}</a></li>
+                    <li class="active"><a href="?page={{ num }}">{{ num }}</a></li>
                 {% endif %}
             {% endfor %}
 
             {% if page_obj.number < paginator.num_pages|add:pagination.pages_visible_negative %}
-                <li><a href="?page={{ page_obj.number|add:pagination.pages_visible_total }}">...</a></li>
+                <li class="pages-visible-total"><a href="?page={{ page_obj.number|add:pagination.pages_visible_total }}">...</a></li>
             {% endif %}
         {% else %}
             {% for num in page_obj.paginator.page_range %}
                 {% if num == page_obj.number %}
                     <li class="active"><span>{{ num }}</span></li>
                 {% else %}
-                    <li><a href="?page={{ num }}">{{ num }}</a></li>
+                    <li class="active"><a href="?page={{ num }}">{{ num }}</a></li>
                 {% endif %}
             {% endfor %}
         {% endif %}
 
         {% if page_obj.has_next %}
-            <li>
+            <li class="next-page">
                 <a href="?page={{ page_obj.next_page_number }}">
                     {% trans "Next" %}
                 </a>
