@@ -1,3 +1,5 @@
+Django~=4.2
+django-cms~=3.11
 djangocms-aldryn-categories
 djangocms-aldryn-people
 django-haystack
@@ -14,7 +16,7 @@ django-classy-tags
 django-sekizai
 django-treebeard>=2.0
 djangocms-admin-style
-djangocms-helper @ git+https://github.com/nephila/django-app-helper.git@3.3.1
+django-app-helper
 djangocms-text-ckeditor
 docopt
 flake8
