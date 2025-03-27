@@ -4,6 +4,6 @@
     {% for article in article_list %}
         {% include article_template_name with namespace=instance.app_config.namespace %}
     {% empty %}
-        <p>{% trans "No items available" %}</p>
+        <p>{% translate "No items available" %}</p>
     {% endfor %}
 </div>

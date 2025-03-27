@@ -6,6 +6,6 @@
             {% include author_template_name with author_view="true" namespace=instance.app_config.namespace %}
         </li>
     {% empty %}
-        <li>{% trans "No items available" %}</li>
+        <li>{% translate "No items available" %}</li>
     {% endfor %}
 </ul>

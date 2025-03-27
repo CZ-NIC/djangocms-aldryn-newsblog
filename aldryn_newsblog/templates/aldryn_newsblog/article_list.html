@@ -8,7 +8,7 @@
             {% for article in article_list %}
                 {% include article_template_name with display_type="articles-list" %}
             {% empty %}
-                <p>{% trans "No items available" %}</p>
+                <p>{% translate "No items available" %}</p>
             {% endfor %}
             {% aldryn_newsblog_safe_prefix "includes/pagination.html" as article_template_pagination %}
             {% include article_template_pagination %}

@@ -15,11 +15,11 @@
 
             <ul class="pagination next-prev-article">
                 {% if prev_article %}
-                    <li class="previous-page"><a href="{{ prev_article.get_absolute_url }}">{% trans "Previous Article" %}</a></li>
+                    <li class="previous-page"><a href="{{ prev_article.get_absolute_url }}">{% translate "Previous Article" %}</a></li>
                 {% endif %}
-                <li class="back-to-overview"><a href="{% namespace_url "article-list" %}">{% trans "Back to Overview" %}</a></li>
+                <li class="back-to-overview"><a href="{% namespace_url "article-list" %}">{% translate "Back to Overview" %}</a></li>
                 {% if next_article %}
-                    <li class="next-page"><a href="{{ next_article.get_absolute_url }}">{% trans "Next Article" %}</a></li>
+                    <li class="next-page"><a href="{{ next_article.get_absolute_url }}">{% translate "Next Article" %}</a></li>
                 {% endif %}
             </ul>
         </div>
