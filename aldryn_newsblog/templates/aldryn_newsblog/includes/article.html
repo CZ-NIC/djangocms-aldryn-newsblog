@@ -1,4 +1,4 @@
-{% load i18n static thumbnail cms_tags apphooks_config_tags %}
+{% load i18n static thumbnail cms_tags apphooks_config_tags aldryn_newsblog %}
 
 <article class="article
     {% if display_type == 'articles-list' %} articles-list-item{% endif %}
@@ -13,7 +13,8 @@
                 <img src="{% thumbnail article.featured_image 800x450 crop subject_location=article.featured_image.subject_location %}" alt="{{ article.featured_image.alt }}">
             </p>
         {% else %}
-            {% include "aldryn_newsblog/includes/article_featured_image_in_list.html" %}
+            {% aldryn_newsblog_safe_prefix "includes/article_featured_image_in_list.html" as article_template_name %}
+            {% include article_template_name %}
         {% endif %}
     {% endif %}
 
@@ -36,7 +37,8 @@
 
     <div class="meta">
         <p class="date">{{ article.publishing_date|date }}</p>
-        {% include "aldryn_newsblog/includes/author.html" with author=article.author %}
+        {% aldryn_newsblog_safe_prefix "includes/author.html" as author_template_name %}
+        {% include author_template_name with author=article.author %}
         {% if article.tags %}
             <p class="tags">
                 {% for tag in article.tags.all %}

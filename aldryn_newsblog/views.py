@@ -31,9 +31,9 @@ class TemplatePrefixMixin:
         if (hasattr(self.config, 'template_prefix') and  # noqa: W504
                 self.config.template_prefix):
             prefix = self.config.template_prefix
-            return [
-                add_prefix_to_path(template, prefix)
-                for template in template_names]
+            template_names = [
+                add_prefix_to_path(template, prefix) for template in template_names
+            ] + template_names
         return template_names
 
     def get_template_names(self):
@@ -157,6 +157,7 @@ class ArticleDetail(AppConfigMixin, AppHookCheckMixin, PreviewModeMixin,
         if self.config is not None:
             context['aldryn_newsblog_display_author_no_photo'] = self.config.author_no_photo
             context['aldryn_newsblog_hide_author'] = self.config.hide_author
+            context['aldryn_newsblog_template_prefix'] = self.config.template_prefix
         return context
 
     def get_prev_object(self, queryset=None, object=None):
@@ -231,6 +232,7 @@ class ArticleListBase(AppConfigMixin, AppHookCheckMixin, TemplatePrefixMixin,
         if self.config is not None:
             context['aldryn_newsblog_display_author_no_photo'] = self.config.author_no_photo
             context['aldryn_newsblog_hide_author'] = self.config.hide_author
+            context['aldryn_newsblog_template_prefix'] = self.config.template_prefix
         return context
 
 

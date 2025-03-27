@@ -4,6 +4,11 @@ Changelog
 Unreleased
 ==========
 
+3.3.0 (2025-03-28)
+==================
+
+* Add templatetag aldryn_newsblog_safe_prefix.
+
 3.2.0 (2025-01-28)
 ==================
 

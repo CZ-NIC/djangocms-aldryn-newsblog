@@ -1,5 +1,5 @@
 {% extends "aldryn_newsblog/base.html" %}
-{% load i18n cms_tags apphooks_config_tags %}
+{% load i18n cms_tags apphooks_config_tags aldryn_newsblog %}
 
 {% block title %}
     {{ article.title }} - {{ block.super }}
@@ -8,7 +8,8 @@
 {% block newsblog_content %}
     <div class="djangocms-newsblog-content">
         <div class="djangocms-newsblog-article-detail">
-            {% include "aldryn_newsblog/includes/article.html" with detail_view="true" %}
+            {% aldryn_newsblog_safe_prefix "includes/article.html" as article_template_name %}
+            {% include article_template_name with detail_view="true" %}
 
             {% static_placeholder "newsblog_social" %}
 

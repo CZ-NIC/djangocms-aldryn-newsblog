@@ -1,3 +1,4 @@
+from django.template.loader import TemplateDoesNotExist, get_template
 from django.utils.translation import gettext_lazy as _
 
 from cms import __version__ as cms_version
@@ -15,13 +16,14 @@ CMS_GTE_330 = LooseVersion(cms_version) >= LooseVersion('3.3.0')
 
 class TemplatePrefixMixin:
 
-    def get_render_template(self, context, instance, placeholder):
-        if (hasattr(instance, 'app_config') and  # noqa: W504
-                instance.app_config.template_prefix):
-            return add_prefix_to_path(
-                self.render_template,
-                instance.app_config.template_prefix
-            )
+    def get_render_template(self, context, instance, placeholder) -> str:
+        if (hasattr(instance, 'app_config') and instance.app_config.template_prefix):  # noqa: W504
+            template_name = add_prefix_to_path(self.render_template, instance.app_config.template_prefix)
+            try:
+                get_template(template_name)
+                return template_name
+            except TemplateDoesNotExist:
+                pass
         return self.render_template
 
 
@@ -33,6 +35,7 @@ class NewsBlogPlugin(TemplatePrefixMixin, CMSPluginBase):
         if hasattr(instance, 'app_config'):
             context['aldryn_newsblog_display_author_no_photo'] = instance.app_config.author_no_photo
             context['aldryn_newsblog_hide_author'] = instance.app_config.hide_author
+            context['aldryn_newsblog_template_prefix'] = instance.app_config.template_prefix
         return context
 
 

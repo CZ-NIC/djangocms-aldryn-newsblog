@@ -1,4 +1,4 @@
-{% load i18n static thumbnail cms_tags apphooks_config_tags %}
+{% load i18n static thumbnail cms_tags apphooks_config_tags aldryn_newsblog %}
 
 <article class="article
     {% if article.is_featured %} featured{% endif %}
@@ -6,7 +6,8 @@
 
     {# The image is only shown on the detail view by using the condition "and detail_view" #}
     {% if article.featured_image_id %}
-        {% include "aldryn_newsblog/includes/article_featured_image_in_list.html" %}
+        {% aldryn_newsblog_safe_prefix "includes/article_featured_image_in_list.html" as article_template_name %}
+        {% include article_template_name %}
     {% endif %}
 
     {% if article.categories.exists %}
@@ -24,7 +25,8 @@
 
     <div class="meta">
         <p class="date">{{ article.publishing_date|date }}</p>
-        {% include "aldryn_newsblog/includes/author.html" with author=article.author %}
+        {% aldryn_newsblog_safe_prefix "includes/author.html" as author_template_name %}
+        {% include author_template_name with author=article.author %}
         {% if article.tags %}
             <p class="tags">
                 {% for tag in article.tags.all %}
