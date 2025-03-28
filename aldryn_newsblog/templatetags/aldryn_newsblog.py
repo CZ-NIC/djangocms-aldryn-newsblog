@@ -10,7 +10,7 @@ _verified_templates = []
 
 
 @register.simple_tag(takes_context=True)
-def aldryn_newsblog_safe_prefix(context: Dict[str, Any], path_and_name: str) -> str:
+def prepend_prefix_if_exists(context: Dict[str, Any], path_and_name: str) -> str:
     """Resolve template prefix."""
     prefix = context.get("aldryn_newsblog_template_prefix")
     if prefix is None:

@@ -8,7 +8,7 @@
 {% block newsblog_content %}
     <div class="djangocms-newsblog-content">
         <div class="djangocms-newsblog-article-detail">
-            {% aldryn_newsblog_safe_prefix "includes/article.html" as article_template_name %}
+            {% prepend_prefix_if_exists "includes/article.html" as article_template_name %}
             {% include article_template_name with detail_view="true" %}
 
             {% static_placeholder "newsblog_social" %}

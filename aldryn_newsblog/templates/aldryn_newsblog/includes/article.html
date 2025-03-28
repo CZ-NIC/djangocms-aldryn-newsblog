@@ -13,7 +13,7 @@
                 <img src="{% thumbnail article.featured_image 800x450 crop subject_location=article.featured_image.subject_location %}" alt="{{ article.featured_image.alt }}">
             </p>
         {% else %}
-            {% aldryn_newsblog_safe_prefix "includes/article_featured_image_in_list.html" as article_template_name %}
+            {% prepend_prefix_if_exists "includes/article_featured_image_in_list.html" as article_template_name %}
             {% include article_template_name %}
         {% endif %}
     {% endif %}
@@ -37,7 +37,7 @@
 
     <div class="meta">
         <p class="date">{{ article.publishing_date|date }}</p>
-        {% aldryn_newsblog_safe_prefix "includes/author.html" as author_template_name %}
+        {% prepend_prefix_if_exists "includes/author.html" as author_template_name %}
         {% include author_template_name with author=article.author %}
         {% if article.tags %}
             <p class="tags">

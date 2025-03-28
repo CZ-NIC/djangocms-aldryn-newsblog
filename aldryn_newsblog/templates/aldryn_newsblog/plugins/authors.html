@@ -1,5 +1,5 @@
 {% load i18n aldryn_newsblog %}
-{% aldryn_newsblog_safe_prefix "includes/author.html" as author_template_name %}
+{% prepend_prefix_if_exists "includes/author.html" as author_template_name %}
 <ul>
     {% for author in authors_list %}
         <li>

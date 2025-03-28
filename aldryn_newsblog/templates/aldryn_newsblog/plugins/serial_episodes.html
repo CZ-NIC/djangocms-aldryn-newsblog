@@ -1,5 +1,5 @@
 {% load aldryn_newsblog %}
-{% aldryn_newsblog_safe_prefix "plugins/article.html" as article_template_name %}
+{% prepend_prefix_if_exists "plugins/article.html" as article_template_name %}
 <div class="newsblog-serial" data-episode_total="{{ article.serial.article_set.count }}">
     {% for article in serial_episodes %}
         <div class="episode episode-position-{{ article.episode }}" data-episode_position="{{ article.episode }}">

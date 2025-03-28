@@ -6,7 +6,7 @@
 
     {# The image is only shown on the detail view by using the condition "and detail_view" #}
     {% if article.featured_image_id %}
-        {% aldryn_newsblog_safe_prefix "includes/article_featured_image_in_list.html" as article_template_name %}
+        {% prepend_prefix_if_exists "includes/article_featured_image_in_list.html" as article_template_name %}
         {% include article_template_name %}
     {% endif %}
 
@@ -25,7 +25,7 @@
 
     <div class="meta">
         <p class="date">{{ article.publishing_date|date }}</p>
-        {% aldryn_newsblog_safe_prefix "includes/author.html" as author_template_name %}
+        {% prepend_prefix_if_exists "includes/author.html" as author_template_name %}
         {% include author_template_name with author=article.author %}
         {% if article.tags %}
             <p class="tags">

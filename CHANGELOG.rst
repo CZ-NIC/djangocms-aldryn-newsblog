@@ -7,7 +7,7 @@ Unreleased
 3.3.0 (2025-03-28)
 ==================
 
-* Add templatetag aldryn_newsblog_safe_prefix.
+* Add templatetag prepend_prefix_if_exists. This will allow you to create only the templates that are needed, not all of them.
 
 3.2.0 (2025-01-28)
 ==================

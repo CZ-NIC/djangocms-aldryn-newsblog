@@ -1,5 +1,5 @@
 {% load i18n aldryn_newsblog %}
-{% aldryn_newsblog_safe_prefix "plugins/article.html" as article_template_name %}
+{% prepend_prefix_if_exists "plugins/article.html" as article_template_name %}
 <div class="aldryn-newsblog-latest-articles">
     {% for article in article_list %}
         {% include article_template_name with namespace=instance.app_config.namespace %}

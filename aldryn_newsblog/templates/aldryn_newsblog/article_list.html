@@ -4,13 +4,13 @@
 {% block newsblog_content %}
     <div class="djangocms-newsblog-content">
         <div class="djangocms-newsblog-article-list">
-            {% aldryn_newsblog_safe_prefix "includes/article.html" as article_template_name %}
+            {% prepend_prefix_if_exists "includes/article.html" as article_template_name %}
             {% for article in article_list %}
                 {% include article_template_name with display_type="articles-list" %}
             {% empty %}
                 <p>{% translate "No items available" %}</p>
             {% endfor %}
-            {% aldryn_newsblog_safe_prefix "includes/pagination.html" as article_template_pagination %}
+            {% prepend_prefix_if_exists "includes/pagination.html" as article_template_pagination %}
             {% include article_template_pagination %}
         </div>
     </div>
