@@ -13,7 +13,7 @@ REQUIREMENTS = [
     'djangocms-aldryn-translation-tools',
     'django-haystack',
     'backport-collections',
-    'djangocms-text-ckeditor',
+    'djangocms-text',
     'django-taggit',
     'python-dateutil',
     'lxml',
