@@ -23,7 +23,7 @@ from aldryn_people.models import Person
 from aldryn_translation_tools.models import (
     TranslatedAutoSlugifyMixin, TranslationHelperMixin,
 )
-from djangocms_text_ckeditor.fields import HTMLField
+from djangocms_text.fields import HTMLField
 from filer.fields.image import FilerImageField
 from parler.models import TranslatableModel, TranslatedFields
 from sortedm2m.fields import SortedManyToManyField

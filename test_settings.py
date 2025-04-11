@@ -22,7 +22,7 @@ HELPER_SETTINGS = {
         'aldryn_categories',
         'aldryn_people',
         'aldryn_translation_tools',
-        'djangocms_text_ckeditor',
+        'djangocms_text',
         'easy_thumbnails',
         'filer',
         'mptt',

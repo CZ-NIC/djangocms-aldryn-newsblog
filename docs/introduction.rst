@@ -71,7 +71,7 @@ In your project's ``settings.py`` make sure you have all of::
     'taggit',
 
     # you'll almost certainly have these installed already
-    'djangocms_text_ckeditor',
+    'djangocms_text',
     'easy_thumbnails',
     'filer',
 
