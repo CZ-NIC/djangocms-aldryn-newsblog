@@ -1,6 +1,6 @@
 from django.apps import apps as django_apps
 from django.conf import settings
-from django.db import migrations, models, transaction
+from django.db import migrations, transaction
 from django.db.utils import OperationalError, ProgrammingError
 
 
@@ -15,9 +15,8 @@ def get_config_count_count(model_class):
 
 
 def create_default_newsblog_config(apps, schema_editor):
-    import cms.models.fields
-    from cms.models import Placeholder
     NewsBlogConfig = apps.get_model('aldryn_newsblog', 'NewsBlogConfig')
+    Placeholder = apps.get_model('cms', 'Placeholder')
 
     # if we try to execute this migration after cms migrations were migrated
     # to latest - we would get an exception because apps.get_model
@@ -48,7 +47,7 @@ def create_default_newsblog_config(apps, schema_editor):
     app_config.pk = 1
 
     for field in app_config._meta.fields:
-        if not field.__class__ == cms.models.fields.PlaceholderField:
+        if not field.__class__.__name__ == "PlaceholderField":
             # skip other fields.
             continue
         placeholder_name = field.name
@@ -59,8 +58,8 @@ def create_default_newsblog_config(apps, schema_editor):
             continue
         # since there is no placeholder - create it, we cannot use
         # get_or_create because it can get placeholder from other config
-        new_placeholder = Placeholder.objects.create(
-            slot=placeholder_name)
+
+        new_placeholder = Placeholder.objects.create(slot=placeholder_name)
         setattr(app_config, placeholder_id_name, new_placeholder.pk)
     # after we process all placeholder fields - save config,
     # so that django can pick up them.
