@@ -9,7 +9,7 @@ REQUIREMENTS = [
     'djangocms-aldryn-categories',
     'djangocms-aldryn-common',
     'djangocms-aldryn-people',
-    'djangocms-aldryn-search @ git+https://github.com/CZ-NIC/djangocms-aldryn-search@upgrade-cms',
+    'djangocms-aldryn-search @ git+https://github.com/CZ-NIC/djangocms-aldryn-search@b9d86eb981491082f8c0e6043b44d294d324c852',
     'djangocms-aldryn-translation-tools',
     'django-haystack',
     'backport-collections',
