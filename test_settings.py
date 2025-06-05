@@ -18,6 +18,7 @@ cms_version = LooseVersion(cms_string_version)
 HELPER_SETTINGS = {
     'TIME_ZONE': 'Europe/Zurich',
     'INSTALLED_APPS': [
+        'djangocms_versioning',
         'aldryn_apphooks_config',
         'aldryn_categories',
         'aldryn_people',

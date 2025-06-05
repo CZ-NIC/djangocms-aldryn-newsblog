@@ -4,6 +4,7 @@ import string
 import sys
 
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AnonymousUser, User
 from django.core.cache import cache
 from django.test import RequestFactory
@@ -15,12 +16,15 @@ from cms import api
 from cms.apphook_pool import apphook_pool
 from cms.appresolver import clear_app_resolvers
 from cms.exceptions import AppAlreadyRegistered
+from cms.models import PageContent
 from cms.test_utils.testcases import CMSTestCase, TransactionCMSTestCase
 from cms.toolbar.toolbar import CMSToolbar
 from cms.utils.conf import get_cms_setting
 
 from aldryn_categories.models import Category
 from aldryn_people.models import Person
+from djangocms_versioning.constants import PUBLISHED
+from djangocms_versioning.models import Version
 from parler.utils.context import switch_language
 
 from aldryn_newsblog.cms_apps import NewsBlogApp
@@ -182,11 +186,10 @@ class NewsBlogTestsMixin:
     def setUp(self):
         self.template = get_cms_setting('TEMPLATES')[0][0]
         self.language = settings.LANGUAGES[0][0]
-        self.root_page = api.create_page(
+        self.root_page = create_page(
             'root page',
             self.template,
             self.language,
-            published=True,
         )
 
         try:
@@ -200,22 +203,22 @@ class NewsBlogTestsMixin:
             namespace='NBNS',
             paginate_by=15,
         )
-        self.page = api.create_page(
-            'page', self.template, self.language, published=True,
+        self.page = create_page(
+            'page', self.template, self.language,
             parent=self.root_page,
             apphook='NewsBlogApp',
             apphook_namespace=self.app_config.namespace)
-        self.plugin_page = api.create_page(
+        self.plugin_page = create_page(
             title="plugin_page", template=self.template, language=self.language,
-            parent=self.root_page, published=True)
+            parent=self.root_page)
         self.placeholder = self.page.get_placeholders(self.language).first()
 
         self.setup_categories()
+        user, _ = get_user_model().objects.get_or_create(username="python-api")
 
         for page in self.root_page, self.page:
             for language, _ in settings.LANGUAGES[1:]:
-                api.create_title(language, page.get_slug(self.language), page)
-                # page.publish(language)
+                api.create_page_content(language, page.get_slug(self.language), page, created_by=user)
 
 
 class CleanUpMixin:
@@ -329,3 +332,12 @@ class NewsBlogTransactionTestCase(CleanUpMixin,
                                   TransactionCMSTestCase):
     apphook_object = NewsBlogApp
     pass
+
+
+def create_page(title, template, language, **kwargs):
+    """Create page with published content."""
+    page = api.create_page(title, template, language, **kwargs)
+    content = PageContent.admin_manager.get(page=page)
+    user, _ = get_user_model().objects.get_or_create(username="python-api")
+    Version.objects.create(content=content, created_by=user, state=PUBLISHED)
+    return page
