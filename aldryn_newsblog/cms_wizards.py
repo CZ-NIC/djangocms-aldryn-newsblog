@@ -76,6 +76,8 @@ class CreateNewsBlogArticleForm(BaseFormMixin, TranslatableModelForm):
         widgets = {'app_config': forms.Select()}
 
     def __init__(self, **kwargs):
+        for key in ("wizard_site", "wizard_request"):
+            kwargs.setdefault(key)
         super().__init__(**kwargs)
 
         # If there's only 1 (or zero) app_configs, don't bother show the
