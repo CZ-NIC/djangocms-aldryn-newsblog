@@ -4,16 +4,14 @@ from operator import itemgetter
 from random import randint
 
 from django.conf import settings
-# from django.contrib.auth import get_user_model
 from django.core.files import File as DjangoFile
 from django.urls import NoReverseMatch, reverse
 from django.utils.timezone import now
 from django.utils.translation import override
 
+from cms import api
 from cms.utils.i18n import force_language, get_current_language
 
-# from djangocms_versioning.constants import PUBLISHED, UNPUBLISHED
-# from djangocms_versioning.models import Version
 from easy_thumbnails.files import get_thumbnailer
 from filer.models.imagemodels import Image
 from parler.tests.utils import override_parler_settings
@@ -684,6 +682,15 @@ class ViewLanguageFallbackMixin:
         # version = content.versions.last()
         # version.unpublish(user)
         # self.page.unpublish('de')
+        content = api.create_page_content(
+            "de", "De Version", self.page,
+            created_by=self.user
+        )
+        print("content:", content)
+        version = content.versions.last()
+        print("version:", version, version.state)
+        # version.unpublish(self.user)
+
         author, owner = self.create_authors()
         author.translations.create(
             slug=f'{author.slug}-de',
