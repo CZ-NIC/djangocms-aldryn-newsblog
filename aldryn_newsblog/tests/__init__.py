@@ -208,14 +208,14 @@ class NewsBlogTestsMixin:
         self.plugin_page = api.create_page(
             title="plugin_page", template=self.template, language=self.language,
             parent=self.root_page, published=True)
-        self.placeholder = self.page.placeholders.all()[0]
+        self.placeholder = self.page.get_placeholders(self.language).first()
 
         self.setup_categories()
 
         for page in self.root_page, self.page:
             for language, _ in settings.LANGUAGES[1:]:
-                api.create_title(language, page.get_slug(), page)
-                page.publish(language)
+                api.create_title(language, page.get_slug(self.language), page)
+                # page.publish(language)
 
 
 class CleanUpMixin:

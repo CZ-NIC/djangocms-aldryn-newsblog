@@ -37,6 +37,7 @@ HELPER_SETTINGS = {
             'aldryn_newsblog', 'tests', 'templates'),
     ),
     'ALDRYN_NEWSBLOG_TEMPLATE_PREFIXES': [('dummy', 'dummy'), ],
+    'CMS_CONFIRM_VERSION4': True,
     'CMS_PERMISSION': True,
     # 'CMS_CONFIRM_VERSION4': True,
     'SITE_ID': 1,
