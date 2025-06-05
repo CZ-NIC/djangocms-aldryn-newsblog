@@ -9,7 +9,7 @@ REQUIREMENTS = [
     'djangocms-aldryn-categories~=2.0',
     'djangocms-aldryn-common~=2.0',
     'djangocms-aldryn-people~=3.0',
-    'djangocms-aldryn-search @ git+https://github.com/CZ-NIC/djangocms-aldryn-search@d3fe56e4de72c394f7753399f4a8959617708eb1',
+    'djangocms-aldryn-search~=3.0',
     'djangocms-aldryn-translation-tools~=1.0',
     'django-haystack~=3.3',
     'backport-collections~=0.1',
@@ -32,6 +32,7 @@ CLASSIFIERS = [
     'Framework :: Django :: 4.0',
     'Programming Language :: Python',
     'Programming Language :: Python :: 3.10',
+    'Programming Language :: Python :: 3.12',
     'Topic :: Internet :: WWW/HTTP',
     'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
     'Topic :: Internet :: WWW/HTTP :: Dynamic Content :: News/Diary',
@@ -53,7 +54,7 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     zip_safe=False,
-    python_requires='>=3.7',
+    python_requires='>=3.10',
     install_requires=REQUIREMENTS,
     extras_require={
         'test': [
