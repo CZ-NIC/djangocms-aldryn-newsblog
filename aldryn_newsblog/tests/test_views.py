@@ -4,6 +4,7 @@ from operator import itemgetter
 from random import randint
 
 from django.conf import settings
+# from django.contrib.auth import get_user_model
 from django.core.files import File as DjangoFile
 from django.urls import NoReverseMatch, reverse
 from django.utils.timezone import now
@@ -11,6 +12,8 @@ from django.utils.translation import override
 
 from cms.utils.i18n import force_language, get_current_language
 
+# from djangocms_versioning.constants import PUBLISHED, UNPUBLISHED
+# from djangocms_versioning.models import Version
 from easy_thumbnails.files import get_thumbnailer
 from filer.models.imagemodels import Image
 from parler.tests.utils import override_parler_settings
@@ -675,6 +678,11 @@ class ViewLanguageFallbackMixin:
 
     def test_a0_en_only(self):
         namespace = self.app_config.namespace
+        # Try to fix.
+        # user, _ = get_user_model().objects.get_or_create(username="python-api")
+        # content = self.page.get_content_obj(language="de")
+        # version = content.versions.last()
+        # version.unpublish(user)
         # self.page.unpublish('de')
         author, owner = self.create_authors()
         author.translations.create(
