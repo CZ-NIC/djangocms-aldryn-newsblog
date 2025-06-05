@@ -7,10 +7,10 @@ from django.utils.translation import override
 
 from aldryn_newsblog.feeds import CategoryFeed, LatestArticlesFeed, TagFeed
 
-from . import NewsBlogTestsMixin
+from . import NewsBlogTransactionTestCase
 
 
-class TestFeeds(NewsBlogTestsMixin, TransactionTestCase):
+class TestFeeds(NewsBlogTransactionTestCase):
 
     def test_latest_feeds(self):
         article = self.create_article()
