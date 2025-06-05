@@ -24,7 +24,7 @@ class AdminTest(NewsBlogTestsMixin, TransactionTestCase):
         user.is_superuser = True
         user.save()
 
-        Person.objects.create(user=user, name=' '.join(
+        person = Person.objects.create(user=user, name=' '.join(
             (user.first_name, user.last_name)))
 
         admin_inst = admin.site._registry[Article]
@@ -32,8 +32,6 @@ class AdminTest(NewsBlogTestsMixin, TransactionTestCase):
         self.request.user = user
         self.request.META['HTTP_HOST'] = 'example.com'
         response = admin_inst.add_view(self.request)
-        option = r'<option value="{}" (selected="selected"|selected)>%s<\/option>'.format(
-            user.pk,
-        )
-        self.assertRegex(response.rendered_content, option % user.username)
-        self.assertRegex(response.rendered_content, option % user.get_full_name())
+        self.assertContains(response, f"""<option value="{user.pk}" selected>{user.username}</option>""", html=True)
+        self.assertContains(response, f"""<option value="{person.pk}" selected>{user.get_full_name()}</option>""",
+                            html=True)
