@@ -9,8 +9,6 @@ from django.utils.translation import override
 from cms import api
 from cms.models import StaticPlaceholder
 
-import pytz
-
 from aldryn_newsblog.models import NewsBlogConfig
 
 from . import NewsBlogTestCase
@@ -22,13 +20,13 @@ class TestAppConfigPluginsBase(NewsBlogTestCase):
 
     def setUp(self):
         super().setUp()
-        self.placeholder = self.plugin_page.placeholders.all()[0]
+        self.placeholder = self.plugin_page.get_placeholders(self.language).first()
         api.add_plugin(
             self.placeholder, self.plugin_to_test, self.language,
             app_config=self.app_config, **self.plugin_params)
         self.plugin = self.placeholder.get_plugins()[0].get_plugin_instance()[0]
         self.plugin.save()
-        self.plugin_page.publish(self.language)
+        # self.plugin_page.publish(self.language)
         self.another_app_config = NewsBlogConfig.objects.create(
             namespace=self.rand_str())
 
@@ -44,7 +42,7 @@ class TestPluginLanguageHelperMixin:
         article.save()
 
         # Unpublish page with newsblog apphook
-        self.page.unpublish('en')
+        # self.page.unpublish('en')
         cache.clear()
         response = self.client.get(self.plugin_page.get_absolute_url())
 
@@ -57,12 +55,12 @@ class TestArchivePlugin(TestAppConfigPluginsBase):
 
     def test_archive_plugin(self):
         dates = [
-            datetime.datetime(2014, 11, 15, 12, 0, 0, 0, pytz.UTC),
-            datetime.datetime(2014, 11, 16, 12, 0, 0, 0, pytz.UTC),
-            datetime.datetime(2015, 1, 15, 12, 0, 0, 0, pytz.UTC),
-            datetime.datetime(2015, 1, 15, 12, 0, 0, 0, pytz.UTC),
-            datetime.datetime(2015, 1, 15, 12, 0, 0, 0, pytz.UTC),
-            datetime.datetime(2015, 2, 15, 12, 0, 0, 0, pytz.UTC),
+            datetime.datetime(2014, 11, 15, 12, 0, 0, 0, datetime.UTC),
+            datetime.datetime(2014, 11, 16, 12, 0, 0, 0, datetime.UTC),
+            datetime.datetime(2015, 1, 15, 12, 0, 0, 0, datetime.UTC),
+            datetime.datetime(2015, 1, 15, 12, 0, 0, 0, datetime.UTC),
+            datetime.datetime(2015, 1, 15, 12, 0, 0, 0, datetime.UTC),
+            datetime.datetime(2015, 2, 15, 12, 0, 0, 0, datetime.UTC),
         ]
         articles = []
         for d in dates:
@@ -236,7 +234,7 @@ class TestFeaturedArticlesPlugin(TestPluginLanguageHelperMixin,
         for article in articles:
             self.assertContains(response, article.title)
 
-        self.page.unpublish(self.language)
+        # self.page.unpublish(self.language)
         self.reload_urls()
         cache.clear()
         response = self.client.get(self.plugin_page.get_absolute_url())
@@ -269,7 +267,7 @@ class TestLatestArticlesPlugin(TestPluginLanguageHelperMixin,
     def _test_latest_articles_plugin_exclude_count(self, exclude_count=0):
         self.plugin.exclude_featured = exclude_count
         self.plugin.save()
-        self.plugin_page.publish(self.plugin.language)
+        # self.plugin_page.publish(self.plugin.language)
         articles = []
         featured_articles = []
         for idx in range(7):
@@ -301,7 +299,7 @@ class TestLatestArticlesPlugin(TestPluginLanguageHelperMixin,
         for article in articles:
             self.assertContains(response, article.title)
 
-        self.page.unpublish(self.language)
+        # self.page.unpublish(self.language)
         self.reload_urls()
         cache.clear()
         response = self.client.get(self.plugin_page.get_absolute_url())
@@ -341,12 +339,12 @@ class TestRelatedArticlesPlugin(TestPluginLanguageHelperMixin,
         placeholder = static_placeholder.draft
         api.add_plugin(placeholder, 'NewsBlogRelatedPlugin', self.language)
 
-        static_placeholder.publish(None, language=self.language, force=True)
+        # static_placeholder.publish(None, language=self.language, force=True)
 
         plugin = placeholder.get_plugins()[0].get_plugin_instance()[0]
         plugin.save()
 
-        self.plugin_page.publish(self.language)
+        # self.plugin_page.publish(self.language)
 
         main_article.save()
         for _ in range(3):
@@ -372,7 +370,7 @@ class TestRelatedArticlesPlugin(TestPluginLanguageHelperMixin,
         for article in unrelated:
             self.assertNotContains(response, article.title)
 
-        self.page.unpublish('de')
+        # self.page.unpublish('de')
         self.reload_urls()
         cache.clear()
         response = self.client.get(main_article.get_absolute_url())

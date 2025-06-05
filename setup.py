@@ -56,11 +56,6 @@ setup(
     zip_safe=False,
     python_requires='>=3.10',
     install_requires=REQUIREMENTS,
-    extras_require={
-        'test': [
-            'pytz',
-        ]
-    },
     classifiers=CLASSIFIERS,
     test_suite="test_settings.run",
 )

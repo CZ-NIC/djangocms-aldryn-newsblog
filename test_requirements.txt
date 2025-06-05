@@ -1,4 +1,6 @@
 django-cms~=4.1
+djangocms-alias
+djangocms-versioning
 djangocms-aldryn-categories
 djangocms-aldryn-people
 django-haystack

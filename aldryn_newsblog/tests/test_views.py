@@ -675,7 +675,7 @@ class ViewLanguageFallbackMixin:
 
     def test_a0_en_only(self):
         namespace = self.app_config.namespace
-        self.page.unpublish('de')
+        # self.page.unpublish('de')
         author, owner = self.create_authors()
         author.translations.create(
             slug=f'{author.slug}-de',
