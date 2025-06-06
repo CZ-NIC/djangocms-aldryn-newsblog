@@ -1,6 +1,5 @@
 from datetime import timedelta
 
-from django.test import TransactionTestCase
 from django.urls import reverse
 from django.utils.timezone import now
 from django.utils.translation import override

@@ -59,12 +59,12 @@ class TestArchivePlugin(TestAppConfigPluginsBase):
 
     def test_archive_plugin(self):
         dates = [
-            datetime.datetime(2014, 11, 15, 12, 0, 0, 0, datetime.UTC),
-            datetime.datetime(2014, 11, 16, 12, 0, 0, 0, datetime.UTC),
-            datetime.datetime(2015, 1, 15, 12, 0, 0, 0, datetime.UTC),
-            datetime.datetime(2015, 1, 15, 12, 0, 0, 0, datetime.UTC),
-            datetime.datetime(2015, 1, 15, 12, 0, 0, 0, datetime.UTC),
-            datetime.datetime(2015, 2, 15, 12, 0, 0, 0, datetime.UTC),
+            datetime.datetime(2014, 11, 15, 12, 0, 0, 0, datetime.timezone.utc),
+            datetime.datetime(2014, 11, 16, 12, 0, 0, 0, datetime.timezone.utc),
+            datetime.datetime(2015, 1, 15, 12, 0, 0, 0, datetime.timezone.utc),
+            datetime.datetime(2015, 1, 15, 12, 0, 0, 0, datetime.timezone.utc),
+            datetime.datetime(2015, 1, 15, 12, 0, 0, 0, datetime.timezone.utc),
+            datetime.datetime(2015, 2, 15, 12, 0, 0, 0, datetime.timezone.utc),
         ]
         articles = []
         for d in dates:
