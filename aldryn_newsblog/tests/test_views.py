@@ -682,13 +682,13 @@ class ViewLanguageFallbackMixin:
         # version = content.versions.last()
         # version.unpublish(user)
         # self.page.unpublish('de')
-        content = api.create_page_content(
+        api.create_page_content(
             "de", "De Version", self.page,
             created_by=self.user
         )
-        print("content:", content)
-        version = content.versions.last()
-        print("version:", version, version.state)
+        # print("content:", content)
+        # version = content.versions.last()
+        # print("version:", version, version.state)
         # version.unpublish(self.user)
 
         author, owner = self.create_authors()
@@ -710,7 +710,10 @@ class ViewLanguageFallbackMixin:
             )
         for article in articles:
             self.assertContains(response, article.title)
-        self.assertNotContains(response, de_article.title)
+        # In CMS 3.11, there was originally `assertNotContains` because the django.urls.reverese function in the
+        # .utils.is_valid_namespace function only returned the selected language version.
+        # This is no longer the case in CMS 4.1.
+        self.assertContains(response, de_article.title)
 
     def test_a1_en_de(self):
         namespace = self.app_config.namespace
