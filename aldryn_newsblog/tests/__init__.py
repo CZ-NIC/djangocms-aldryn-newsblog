@@ -211,10 +211,6 @@ class NewsBlogTestsMixin:
             title="plugin_page", template=self.template, language=self.language,
             parent=self.root_page, created_by=self.user)
 
-        # content = self.page.get_admin_content(self.language)
-        # version = content.versions.last()
-        # version.publish(self.user)
-        # self.placeholder = self.page.get_placeholders(self.language).last()
         self.placeholder = self.page.get_admin_content(self.language).get_placeholders().first()
 
         self.setup_categories()

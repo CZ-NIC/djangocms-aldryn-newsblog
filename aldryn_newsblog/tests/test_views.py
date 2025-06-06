@@ -676,21 +676,10 @@ class ViewLanguageFallbackMixin:
 
     def test_a0_en_only(self):
         namespace = self.app_config.namespace
-        # Try to fix.
-        # user, _ = get_user_model().objects.get_or_create(username="python-api")
-        # content = self.page.get_content_obj(language="de")
-        # version = content.versions.last()
-        # version.unpublish(user)
-        # self.page.unpublish('de')
         api.create_page_content(
             "de", "De Version", self.page,
             created_by=self.user
         )
-        # print("content:", content)
-        # version = content.versions.last()
-        # print("version:", version, version.state)
-        # version.unpublish(self.user)
-
         author, owner = self.create_authors()
         author.translations.create(
             slug=f'{author.slug}-de',
