@@ -16,12 +16,16 @@ from cms import api
 from cms.apphook_pool import apphook_pool
 from cms.appresolver import clear_app_resolvers
 from cms.exceptions import AppAlreadyRegistered
+from cms.models import PageContent
 from cms.test_utils.testcases import CMSTestCase, TransactionCMSTestCase
 from cms.toolbar.toolbar import CMSToolbar
 from cms.utils.conf import get_cms_setting
 
 from aldryn_categories.models import Category
 from aldryn_people.models import Person
+from djangocms_alias.models import Alias as AliasModel
+from djangocms_alias.models import AliasContent
+from djangocms_alias.models import Category as AliasCategory
 from parler.utils.context import switch_language
 
 from aldryn_newsblog.cms_apps import NewsBlogApp
@@ -218,6 +222,26 @@ class NewsBlogTestsMixin:
         for page in self.root_page, self.page:
             for language, _ in settings.LANGUAGES[1:]:
                 api.create_page_content(language, page.get_slug(self.language), page, created_by=self.user)
+
+    def publish_page(self, page, language, user):
+        """Publish page content."""
+        content = PageContent.admin_manager.get(page=page, language=language)
+        version = content.versions.last()
+        version.publish(user)
+
+    def create_alias_content(self, static_code, language, category_name="test category", alias_name="test alias"):
+        category = AliasCategory.objects.create(name=category_name)
+        alias_obj = AliasModel.objects.get_or_create(
+            static_code=static_code,
+            category=category,
+            # site__isnull=True,
+        )[0]
+        alias_content = AliasContent.objects.with_user(self.user).create(
+            alias=alias_obj,
+            name=alias_name,
+            language=language,
+        )
+        return alias_content
 
 
 class CleanUpMixin:

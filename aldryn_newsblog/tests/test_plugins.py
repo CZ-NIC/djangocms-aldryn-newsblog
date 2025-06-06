@@ -7,7 +7,6 @@ from django.utils.encoding import force_str
 from django.utils.translation import override
 
 from cms import api
-from cms.models import StaticPlaceholder
 
 from aldryn_newsblog.models import NewsBlogConfig
 
@@ -20,13 +19,13 @@ class TestAppConfigPluginsBase(NewsBlogTestCase):
 
     def setUp(self):
         super().setUp()
-        self.placeholder = self.plugin_page.get_placeholders(self.language).first()
+        self.placeholder = self.plugin_page.get_admin_content(self.language).get_placeholders().first()
         api.add_plugin(
             self.placeholder, self.plugin_to_test, self.language,
             app_config=self.app_config, **self.plugin_params)
         self.plugin = self.placeholder.get_plugins()[0].get_plugin_instance()[0]
         self.plugin.save()
-        # self.plugin_page.publish(self.language)
+        self.publish_page(self.plugin_page, self.language, self.user)
         self.another_app_config = NewsBlogConfig.objects.create(
             namespace=self.rand_str())
 
@@ -332,19 +331,15 @@ class TestRelatedArticlesPlugin(TestPluginLanguageHelperMixin,
 
     def test_related_articles_plugin(self):
         main_article = self.create_article(app_config=self.app_config)
-        static_placeholder = StaticPlaceholder.objects.get_or_create(
-            code='newsblog_social',
-            site__isnull=True,
-        )[0]
-        placeholder = static_placeholder.draft
-        api.add_plugin(placeholder, 'NewsBlogRelatedPlugin', self.language)
+        alias_content = self.create_alias_content("newsblog_social", self.language)
+        version = alias_content.versions.last()
+        version.publish(self.user)
 
-        # static_placeholder.publish(None, language=self.language, force=True)
+        placeholder = alias_content.get_placeholders()[0]
+        api.add_plugin(placeholder, 'NewsBlogRelatedPlugin', self.language)
 
         plugin = placeholder.get_plugins()[0].get_plugin_instance()[0]
         plugin.save()
-
-        # self.plugin_page.publish(self.language)
 
         main_article.save()
         for _ in range(3):
@@ -370,7 +365,8 @@ class TestRelatedArticlesPlugin(TestPluginLanguageHelperMixin,
         for article in unrelated:
             self.assertNotContains(response, article.title)
 
-        # self.page.unpublish('de')
+        version.unpublish(self.user)
+
         self.reload_urls()
         cache.clear()
         response = self.client.get(main_article.get_absolute_url())
