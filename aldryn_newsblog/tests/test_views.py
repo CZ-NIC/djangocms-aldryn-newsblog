@@ -1,11 +1,12 @@
 import os
-from datetime import date, datetime, timezone
+from datetime import date, datetime, time, timezone
 from operator import itemgetter
 from random import randint
 
 from django.conf import settings
 from django.core.files import File as DjangoFile
 from django.urls import NoReverseMatch, reverse
+from django.utils.timezone import make_aware
 from django.utils.timezone import now as django_timezone_now
 from django.utils.translation import override
 
@@ -409,7 +410,8 @@ class TestVariousViews(NewsBlogTestCase):
         ]
         for month in months:
             for _ in range(month['num_articles']):
-                article = self.create_article(publishing_date=month['date'])
+                publishing_date = make_aware(datetime.combine(month['date'], time(10, 12, 30)))
+                article = self.create_article(publishing_date=publishing_date)
 
         # unpublish one specific article to test that it is not counted
         article.is_published = False
