@@ -4,6 +4,15 @@ Changelog
 Unreleased
 ==========
 
+4.0.0 (2025-06-06)
+==================
+
+* Add support of CMS 4.x
+* Remove support of CMS 3.x
+* Use djangocms-alias instead of cms static_placeholder.
+* Use djangocms_text instead of djangocms_text_ckeditor.
+* Restrict python version >= 3.10.
+
 3.3.0 (2025-03-28)
 ==================
 
