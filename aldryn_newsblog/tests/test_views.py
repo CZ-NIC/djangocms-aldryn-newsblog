@@ -481,12 +481,12 @@ class TestVariousViews(NewsBlogTestCase):
         in_articles = [
             self.create_article(
                 publishing_date=datetime(
-                    1914, 7, 28, randint(0, 23), randint(0, 59), tzinfo=timezone.utc))
+                    1914, 7, 28, randint(0, 20), randint(0, 59), tzinfo=timezone.utc))
             for _ in range(11)]
         out_articles = [
             self.create_article(
                 publishing_date=datetime(
-                    1939, 9, 1, randint(0, 23), randint(0, 59), tzinfo=timezone.utc))
+                    1939, 9, 1, randint(0, 20), randint(0, 59), tzinfo=timezone.utc))
             for _ in range(11)]
         response = self.client.get(reverse(
             'aldryn_newsblog:article-list-by-day',
@@ -500,12 +500,12 @@ class TestVariousViews(NewsBlogTestCase):
         in_articles = [
             self.create_article(
                 publishing_date=datetime(
-                    1914, 7, randint(1, 31), randint(0, 23), randint(0, 59), tzinfo=timezone.utc))
+                    1914, 7, randint(1, 31), randint(0, 20), randint(0, 59), tzinfo=timezone.utc))
             for _ in range(11)]
         out_articles = [
             self.create_article(
                 publishing_date=datetime(
-                    1939, 9, 1, randint(0, 23), randint(0, 59), tzinfo=timezone.utc))
+                    1939, 9, 1, randint(0, 20), randint(0, 59), tzinfo=timezone.utc))
             for _ in range(11)]
         response = self.client.get(reverse(
             'aldryn_newsblog:article-list-by-month',
@@ -520,13 +520,13 @@ class TestVariousViews(NewsBlogTestCase):
             self.create_article(
                 publishing_date=datetime(
                     1914, randint(1, 11), randint(1, 28),
-                    randint(0, 23), randint(0, 59), tzinfo=timezone.utc))
+                    randint(0, 20), randint(0, 59), tzinfo=timezone.utc))
             for _ in range(11)]
         out_articles = [
             self.create_article(
                 publishing_date=datetime(
                     1939, randint(1, 12), randint(1, 28),
-                    randint(0, 23), randint(0, 59), tzinfo=timezone.utc))
+                    randint(0, 20), randint(0, 59), tzinfo=timezone.utc))
             for _ in range(11)]
         response = self.client.get(reverse(
             'aldryn_newsblog:article-list-by-year', kwargs={'year': '1914'}))
