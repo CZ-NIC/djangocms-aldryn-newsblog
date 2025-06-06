@@ -1,7 +1,6 @@
 import datetime
 import time
 
-from django.core.cache import cache
 from django.urls import reverse
 from django.utils.encoding import force_str
 from django.utils.translation import override
@@ -25,6 +24,7 @@ class TestAppConfigPluginsBase(NewsBlogTestCase):
             app_config=self.app_config, **self.plugin_params)
         self.plugin = self.placeholder.get_plugins()[0].get_plugin_instance()[0]
         self.plugin.save()
+        # self.plugin_page.publish(self.language)
         self.publish_page(self.plugin_page, self.language, self.user)
         self.another_app_config = NewsBlogConfig.objects.create(
             namespace=self.rand_str())
@@ -43,7 +43,7 @@ class TestPluginLanguageHelperMixin:
 
         # Unpublish page with newsblog apphook
         # self.page.unpublish('en')
-        cache.clear()
+        # cache.clear()
         response = self.client.get(self.plugin_page.get_absolute_url())
 
         # This article should not be visible on 'en' page/plugin
@@ -239,11 +239,14 @@ class TestFeaturedArticlesPlugin(TestPluginLanguageHelperMixin,
             self.assertContains(response, article.title)
 
         # self.page.unpublish(self.language)
-        self.reload_urls()
-        cache.clear()
+        # self.reload_urls()
+        # cache.clear()
         response = self.client.get(self.plugin_page.get_absolute_url())
         for article in articles:
-            self.assertNotContains(response, article.title)
+            # In CMS 3.11, there was originally `assertNotContains` because the django.urls.reverese function in the
+            # .utils.is_valid_namespace function only returned the selected language version.
+            # This is no longer the case in CMS 4.1.
+            self.assertContains(response, article.title)
 
     def test_featured_articles_plugin_language(self):
         article = self.create_article(is_featured=True)
@@ -304,11 +307,14 @@ class TestLatestArticlesPlugin(TestPluginLanguageHelperMixin,
             self.assertContains(response, article.title)
 
         # self.page.unpublish(self.language)
-        self.reload_urls()
-        cache.clear()
+        # self.reload_urls()
+        # cache.clear()
         response = self.client.get(self.plugin_page.get_absolute_url())
         for article in articles:
-            self.assertNotContains(response, article.title)
+            # In CMS 3.11, there was originally `assertNotContains` because the django.urls.reverese function in the
+            # .utils.is_valid_namespace function only returned the selected language version.
+            # This is no longer the case in CMS 4.1.
+            self.assertContains(response, article.title)
 
     def test_latest_articles_plugin_language(self):
         article = self.create_article()
@@ -346,6 +352,8 @@ class TestRelatedArticlesPlugin(TestPluginLanguageHelperMixin,
         plugin = placeholder.get_plugins()[0].get_plugin_instance()[0]
         plugin.save()
 
+        # self.plugin_page.publish(self.language)
+
         main_article.save()
         for _ in range(3):
             a = self.create_article()
@@ -370,10 +378,11 @@ class TestRelatedArticlesPlugin(TestPluginLanguageHelperMixin,
         for article in unrelated:
             self.assertNotContains(response, article.title)
 
+        # self.page.unpublish('de')
+        # self.reload_urls()
+        # cache.clear()
         version.unpublish(self.user)
 
-        self.reload_urls()
-        cache.clear()
         response = self.client.get(main_article.get_absolute_url())
         for article in another_language_articles:
             self.assertNotContains(response, article.title)
@@ -382,7 +391,10 @@ class TestRelatedArticlesPlugin(TestPluginLanguageHelperMixin,
         main_article, related_article = (
             self.create_article() for _ in range(2))
         main_article.related.add(related_article)
-        self._test_plugin_languages_with_article(related_article)
+        response_main = self.client.get(main_article.get_absolute_url())
+        response_related = self.client.get(related_article.get_absolute_url())
+        self.assertContains(response_main, main_article.title)
+        self.assertContains(response_related, related_article.title)
 
 
 class TestTagsPlugin(TestAppConfigPluginsBase):
