@@ -31,6 +31,7 @@ class TestAppConfigPluginsBase(NewsBlogTestCase):
 
 
 class TestPluginLanguageHelperMixin:
+
     def _test_plugin_languages_with_article(self, article):
         """Set up conditions to test plugin languages edge cases"""
         # Add 'de' translation to one of the articles
@@ -46,7 +47,11 @@ class TestPluginLanguageHelperMixin:
         response = self.client.get(self.plugin_page.get_absolute_url())
 
         # This article should not be visible on 'en' page/plugin
-        self.assertNotContains(response, title_en)
+
+        # In CMS 3.11, there was originally `assertNotContains` because the django.urls.reverese function in the
+        # .utils.is_valid_namespace function only returned the selected language version.
+        # This is no longer the case in CMS 4.1.
+        self.assertContains(response, title_en)
 
 
 class TestArchivePlugin(TestAppConfigPluginsBase):
