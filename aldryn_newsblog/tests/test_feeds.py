@@ -6,7 +6,7 @@ from django.utils.translation import override
 
 from aldryn_newsblog.feeds import CategoryFeed, LatestArticlesFeed, TagFeed
 
-from . import NewsBlogTransactionTestCase
+from .mixins import NewsBlogTransactionTestCase
 
 
 class TestFeeds(NewsBlogTransactionTestCase):

@@ -69,8 +69,7 @@ class PreviewModeMixin(EditModeMixin):
         if not (self.edit_mode or user_can_edit):
             qs = qs.published()
         language = translation.get_language()
-        qs = qs.active_translations(language).namespace(self.namespace)
-        return qs
+        return qs.active_translations(language).namespace(self.namespace)
 
 
 class AppHookCheckMixin:
@@ -110,6 +109,7 @@ class ArticleDetail(AppConfigMixin, AppHookCheckMixin, PreviewModeMixin,
             self.object = self.get_object()
         set_language_changer(request, self.object.get_absolute_url)
         url = self.object.get_absolute_url()
+
         if self.config.non_permalink_handling == 200 or request.path == url:
             # Continue as normal
             return super().get(request, *args, **kwargs)
@@ -158,6 +158,7 @@ class ArticleDetail(AppConfigMixin, AppHookCheckMixin, PreviewModeMixin,
             context['aldryn_newsblog_display_author_no_photo'] = self.config.author_no_photo
             context['aldryn_newsblog_hide_author'] = self.config.hide_author
             context['aldryn_newsblog_template_prefix'] = self.config.template_prefix
+        self.request.toolbar.set_object(self.object)
         return context
 
     def get_prev_object(self, queryset=None, object=None):

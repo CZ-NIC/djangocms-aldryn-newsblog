@@ -3,7 +3,7 @@ from django.utils.translation import override
 
 from aldryn_newsblog.sitemaps import NewsBlogSitemap
 
-from . import NewsBlogTestCase
+from .mixins import NewsBlogTestCase
 
 
 class TestSitemaps(NewsBlogTestCase):

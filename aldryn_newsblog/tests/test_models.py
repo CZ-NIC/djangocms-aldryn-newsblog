@@ -8,7 +8,9 @@ from cms import api
 
 from aldryn_newsblog.models import Article
 
-from . import TESTS_STATIC_ROOT, NewsBlogTestCase, NewsBlogTransactionTestCase
+from .mixins import (
+    TESTS_STATIC_ROOT, NewsBlogTestCase, NewsBlogTransactionTestCase,
+)
 
 
 FEATURED_IMAGE_PATH = os.path.join(TESTS_STATIC_ROOT, 'featured_image.jpg')
@@ -161,8 +163,8 @@ class TestModels(NewsBlogTestCase):
             is_published=True,
         )
         article.save()
-        api.add_plugin(article.content, 'TextPlugin', self.language)
-        plugin = article.content.get_plugins()[0].get_plugin_instance()[0]
+        api.add_plugin(article.content_placeholder, 'TextPlugin', self.language)
+        plugin = article.content_placeholder.get_plugins()[0].get_plugin_instance()[0]
         plugin.body = content
         plugin.save()
         response = self.client.get(article.get_absolute_url())

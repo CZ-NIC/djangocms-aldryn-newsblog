@@ -22,7 +22,7 @@ from parler.utils.context import smart_override, switch_language
 from aldryn_newsblog.models import Article, NewsBlogConfig
 from aldryn_newsblog.search_indexes import ArticleIndex
 
-from . import TESTS_STATIC_ROOT, NewsBlogTestCase
+from .mixins import TESTS_STATIC_ROOT, NewsBlogTestCase
 
 
 FEATURED_IMAGE_PATH = os.path.join(TESTS_STATIC_ROOT, 'featured_image.jpg')

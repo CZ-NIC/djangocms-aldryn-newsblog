@@ -9,7 +9,7 @@ from cms import api
 
 from aldryn_newsblog.models import NewsBlogConfig
 
-from . import NewsBlogTestCase
+from .mixins import NewsBlogTestCase
 
 
 class TestAppConfigPluginsBase(NewsBlogTestCase):

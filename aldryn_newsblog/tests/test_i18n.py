@@ -1,7 +1,7 @@
 from django.urls import NoReverseMatch
 from django.utils.translation import override
 
-from . import NewsBlogTestCase
+from .mixins import NewsBlogTestCase
 
 
 class TestI18N(NewsBlogTestCase):

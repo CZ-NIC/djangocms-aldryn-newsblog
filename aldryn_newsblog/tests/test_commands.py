@@ -3,7 +3,7 @@ from django.utils.translation import activate
 
 from aldryn_newsblog.models import Article
 
-from . import NewsBlogTestCase
+from .mixins import NewsBlogTestCase
 
 
 class TestCommands(NewsBlogTestCase):

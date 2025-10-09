@@ -4,6 +4,11 @@ Changelog
 Unreleased
 ==========
 
+4.0.1 (2025-10-09)
+==================
+
+* Fix edit content in placeholder.
+
 4.0.0 (2025-06-06)
 ==================
 

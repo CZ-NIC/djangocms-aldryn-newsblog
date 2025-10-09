@@ -5,7 +5,7 @@ from aldryn_people.models import Person
 from aldryn_newsblog.cms_appconfig import NewsBlogConfig
 from aldryn_newsblog.models import Article
 
-from . import NewsBlogTestsMixin
+from .mixins import NewsBlogTestsMixin
 
 
 class AdminTest(NewsBlogTestsMixin, TransactionTestCase):

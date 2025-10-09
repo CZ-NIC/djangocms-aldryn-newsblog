@@ -96,7 +96,7 @@ class CreateNewsBlogArticleForm(BaseFormMixin, TranslatableModelForm):
         content = clean_html(self.cleaned_data.get('content', ''), False)
         if content and permissions.has_plugin_permission(self.user, 'TextPlugin', 'add'):
             add_plugin(
-                placeholder=article.content,
+                placeholder=article.content_placeholder,
                 plugin_type='TextPlugin',
                 language=self.language_code,
                 body=content,

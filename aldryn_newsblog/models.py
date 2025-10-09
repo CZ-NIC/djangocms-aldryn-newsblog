@@ -7,14 +7,16 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.encoding import force_str
+from django.utils.functional import cached_property
 from django.utils.timezone import now
 from django.utils.translation import gettext
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import override
 
-from cms.models.fields import PlaceholderField
+from cms.models.fields import PlaceholderRelationField
 from cms.models.pluginmodel import CMSPlugin
 from cms.utils.i18n import get_current_language, get_redirect_on_fallback
+from cms.utils.placeholder import get_placeholder_from_slot
 
 from aldryn_apphooks_config.fields import AppHookConfigField
 from aldryn_categories.fields import CategoryManyToManyField
@@ -117,8 +119,9 @@ class Article(TranslatedAutoSlugifyMixin,
         search_data=models.TextField(blank=True, editable=False)
     )
 
-    content = PlaceholderField('newsblog_article_content',
-                               related_name='newsblog_article_content')
+    placeholder_slotname = "newsblog_article_content"
+    placeholders = PlaceholderRelationField()
+
     author = models.ForeignKey(
         Person,
         null=True,
@@ -189,6 +192,10 @@ class Article(TranslatedAutoSlugifyMixin,
         """
         return self.is_published and self.publishing_date > now()
 
+    @cached_property
+    def content_placeholder(self):
+        return get_placeholder_from_slot(self.placeholders, self.placeholder_slotname)
+
     def get_absolute_url(self, language=None):
         """Returns the url for this Article in the selected permalink format."""
         if not language:
@@ -238,12 +245,9 @@ class Article(TranslatedAutoSlugifyMixin,
                 force_str(category.safe_translation_getter('name')))
         for tag in self.tags.all():
             text_bits.append(force_str(tag.name))
-        if self.content:
-            plugins = self.content.cmsplugin_set.filter(language=language)
-            for base_plugin in plugins:
-                plugin_text_content = ' '.join(
-                    get_plugin_index_data(base_plugin, request))
-                text_bits.append(plugin_text_content)
+        for base_plugin in self.content_placeholder.cmsplugin_set.filter(language=language):
+            plugin_text_content = ' '.join(get_plugin_index_data(base_plugin, request))
+            text_bits.append(plugin_text_content)
         return ' '.join(text_bits)
 
     def save(self, *args, **kwargs):
@@ -266,6 +270,9 @@ class Article(TranslatedAutoSlugifyMixin,
 
     def __str__(self):
         return self.safe_translation_getter('title', any_language=True)
+
+    def get_template(self):
+        return "aldryn_newsblog/article_content.html"
 
 
 class PluginEditModeMixin:

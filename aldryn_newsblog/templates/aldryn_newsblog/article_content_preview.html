@@ -1,0 +1,19 @@
+{% extends "aldryn_newsblog/base.html" %}
+{% load cms_tags %}
+
+{% block content %}
+    {% block newsblog_content %}
+        <div class="djangocms-newsblog-content">
+            <div class="djangocms-newsblog-article-detail">
+                <article class="article
+                    {% if detail_view %} article-detail{% endif %}
+                    {% if article.is_featured %} featured{% endif %}
+                    {% if not article.published %} unpublished{% endif %}">
+                        <div class="content">
+                            {% render_placeholder article.content_placeholder language placeholder_language %}
+                        </div>
+                </article>
+            </div>
+        </div>
+    {% endblock newsblog_content %}
+{% endblock content %}

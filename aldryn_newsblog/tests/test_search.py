@@ -2,7 +2,7 @@ from django.utils.translation import activate
 
 from aldryn_newsblog.search_indexes import ArticleIndex
 
-from . import NewsBlogTestCase
+from .mixins import NewsBlogTestCase
 
 
 class ArticleIndexingTests(NewsBlogTestCase):

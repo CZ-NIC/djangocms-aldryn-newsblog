@@ -1,379 +1,270 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# 
-# Translators:
+#
 # Translators:
 # Mirek Simek <miroslav.simek@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: Aldryn News & Blog\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-02 07:59-0500\n"
+"POT-Creation-Date: 2025-10-09 11:16+0200\n"
 "PO-Revision-Date: 2019-02-20 17:45+0000\n"
 "Last-Translator: evildmp <daniele@vurt.org>\n"
-"Language-Team: Czech (http://www.transifex.com/divio/aldryn-newsblog/language/cs/)\n"
+"Language-Team: Czech (http://www.transifex.com/divio/aldryn-newsblog/"
+"Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: cs\n"
-"Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: admin.py:25
-msgid "Mark selected articles as published"
-msgstr "Publikovat vybrané články"
+#, python-format
+msgid "%(app_title)s latest articles: %(latest_articles)s"
+msgstr "%(app_title)s nejnověnší články: %(latest_articles)s"
 
-#: admin.py:33
-msgid "Mark selected articles as not published"
-msgstr "Odpublikovat vybrané články"
+#, python-format
+msgid "%s archive"
+msgstr "%s archívů"
 
-#: admin.py:41
-msgid "Mark selected articles as featured"
-msgstr "Označit vybrané články jako významné"
+#, python-format
+msgid "%s authors"
+msgstr "%s autorů"
 
-#: admin.py:49
-msgid "Mark selected articles as not featured"
-msgstr "Zrušit označení vybraných článků jako významné"
+#, python-format
+msgid "%s categories"
+msgstr "%s kategorií"
 
-#: admin.py:128
-#| msgid "meta description"
-msgid "Meta Options"
-msgstr ""
+#, python-format
+msgid "%s tags"
+msgstr "%s značek"
 
-#: aldryn_translation_tools_installed/admin.py:135
-msgid "Translations"
-msgstr "Překlady"
+msgid "1969/07/16/11/"
+msgstr "1969/07/16/11/"
 
-#: admin.py:137
+msgid "1969/07/16/the-eagle-has-landed/"
+msgstr "1969/07/16/the-eagle-has-landed/"
+
+msgid "1969/07/the-eagle-has-landed/"
+msgstr "1969/07/the-eagle-has-landed/"
+
+msgid "1969/the-eagle-has-landed/"
+msgstr "1969/the-eagle-has-landed/"
+
+msgid "Add new article"
+msgstr "Přidat nový článek"
+
 msgid "Advanced Settings"
 msgstr "Pokročilé nastavení"
 
-#: boilerplates/bootstrap3/templates/aldryn_newsblog/article_detail.html:18
-#: boilerplates/bootstrap3/templates/aldryn_newsblog/article_detail.html:20
-#: templates/aldryn_newsblog/article_detail.html:15
-msgid "Previous Article"
-msgstr "Předchozí článek"
+msgid "Aldryn NewsBlog Menu"
+msgstr "Aldryn NewsBlog Menu"
 
-#: boilerplates/bootstrap3/templates/aldryn_newsblog/article_detail.html:22
-#: templates/aldryn_newsblog/article_detail.html:17
-msgid "Back to Overview"
-msgstr "Návrat na přehled"
-
-#: boilerplates/bootstrap3/templates/aldryn_newsblog/article_detail.html:24
-#: boilerplates/bootstrap3/templates/aldryn_newsblog/article_detail.html:26
-#: templates/aldryn_newsblog/article_detail.html:19
-msgid "Next Article"
-msgstr "Další článek"
-
-#: boilerplates/bootstrap3/templates/aldryn_newsblog/article_list.html:9
-#: boilerplates/bootstrap3/templates/aldryn_newsblog/plugins/archive.html:21
-#: boilerplates/bootstrap3/templates/aldryn_newsblog/plugins/authors.html:10
-#: boilerplates/bootstrap3/templates/aldryn_newsblog/plugins/latest_articles.html:7
-#: boilerplates/bootstrap3/templates/aldryn_newsblog/plugins/related_articles.html:12
-#: templates/aldryn_newsblog/article_list.html:8
-#: templates/aldryn_newsblog/plugins/archive.html:22
-#: templates/aldryn_newsblog/plugins/authors.html:9
-#: templates/aldryn_newsblog/plugins/featured_articles.html:6
-#: templates/aldryn_newsblog/plugins/latest_articles.html:6
-#: templates/aldryn_newsblog/plugins/related_articles.html:11
-msgid "No items available"
-msgstr "Nejsou k dispozici žádné položky"
-
-#: boilerplates/bootstrap3/templates/aldryn_newsblog/includes/pagination.html:8
-msgid "First"
-msgstr "První"
-
-#: boilerplates/bootstrap3/templates/aldryn_newsblog/includes/pagination.html:14
-#: templates/aldryn_newsblog/includes/pagination.html:8
-msgid "Previous"
-msgstr "Předchozí"
-
-#: boilerplates/bootstrap3/templates/aldryn_newsblog/includes/pagination.html:47
-#: templates/aldryn_newsblog/includes/pagination.html:42
-msgid "Next"
-msgstr "Další"
-
-#: boilerplates/bootstrap3/templates/aldryn_newsblog/includes/pagination.html:53
-msgid "Last"
-msgstr "Poslední"
-
-#: boilerplates/bootstrap3/templates/aldryn_newsblog/includes/search_results.html:4
-#: templates/aldryn_newsblog/includes/search_results.html:6
-#, python-format
-msgid "Most recent articles containing \"<strong>%(query)s</strong>\""
-msgstr "Poslední články obsahující \"<strong>%(query)s</strong>\""
-
-#: boilerplates/bootstrap3/templates/aldryn_newsblog/includes/search_results.html:19
-#: templates/aldryn_newsblog/includes/search_results.html:21
-msgid "No articles found"
-msgstr "Nebyly nalezeny žádné články"
-
-#: boilerplates/bootstrap3/templates/aldryn_newsblog/includes/search_results.html:21
-#: templates/aldryn_newsblog/includes/search_results.html:23
-msgid "Enter a query above"
-msgstr "Zadejte hledaný text"
-
-#: boilerplates/bootstrap3/templates/aldryn_newsblog/plugins/article_search.html:8
-#: templates/aldryn_newsblog/plugins/article_search.html:6
-msgid "Keyword search"
-msgstr "Hledání dle klíčových slov"
-
-#: boilerplates/bootstrap3/templates/aldryn_newsblog/plugins/article_search.html:9
-#: templates/aldryn_newsblog/plugins/article_search.html:7
-msgid "Keyword"
-msgstr "Klíčové slovo"
-
-#: boilerplates/bootstrap3/templates/aldryn_newsblog/plugins/article_search.html:11
-#: templates/aldryn_newsblog/plugins/article_search.html:10
-msgid "Go"
-msgstr "Hledat"
-
-#: boilerplates/bootstrap3/templates/aldryn_newsblog/plugins/categories.html:6
-#: boilerplates/bootstrap3/templates/aldryn_newsblog/plugins/tags.html:6
-#: templates/aldryn_newsblog/plugins/categories.html:5
-#: templates/aldryn_newsblog/plugins/tags.html:5
 msgid "All"
 msgstr "Všechny"
 
-#: boilerplates/bootstrap3/templates/aldryn_newsblog/plugins/related_articles.html:9
-#: templates/aldryn_newsblog/plugins/related_articles.html:8
-msgid "by"
-msgstr "podle"
-
-#: cms_appconfig.py:19
-msgid "the-eagle-has-landed/"
-msgstr ""
-
-#: cms_appconfig.py:20
-msgid "1969/the-eagle-has-landed/"
-msgstr ""
-
-#: cms_appconfig.py:21
-msgid "1969/07/the-eagle-has-landed/"
-msgstr ""
-
-#: cms_appconfig.py:22
-msgid "1969/07/16/the-eagle-has-landed/"
-msgstr ""
-
-#: cms_appconfig.py:23
-msgid "1969/07/16/11/"
-msgstr ""
-
-#: cms_appconfig.py:27
 msgid "Allow"
 msgstr "Povolit"
 
-#: cms_appconfig.py:28
-msgid "Redirect to permalink (default)"
-msgstr ""
+msgid "Apphook configuration"
+msgstr "Apphook konfigurace"
 
-#: cms_appconfig.py:29
-msgid "Permanent redirect to permalink"
-msgstr ""
+msgid "Archive"
+msgstr "Archív"
 
-#: cms_appconfig.py:30
-msgid "Return 404: Not Found"
-msgstr ""
+msgid "Article Search"
+msgstr "Vyhledávání v archívu"
 
-#: cms_appconfig.py:42
-msgid "application title"
-msgstr ""
+msgid "Article list"
+msgstr "Seznam článků"
 
-#: cms_appconfig.py:45
-msgid "permalink type"
-msgstr ""
+#, python-format
+msgid "Articles on %(site_name)s"
+msgstr "Články na %(site_name)s"
 
-#: cms_appconfig.py:47
+msgid "Authors"
+msgstr "Autoři"
+
+msgid "Auto-create authors?"
+msgstr "Automatické vytváření autorů?"
+
+msgid "Automatically create authors from logged-in user?"
+msgstr "Automaticky vytvořit autory z přihlášených uživatelů?"
+
+msgid "Back to Overview"
+msgstr "Návrat na přehled"
+
+msgid "Categories"
+msgstr "Kategorie"
+
 msgid ""
 "Choose the style of urls to use from the examples. (Note, all types are "
 "relative to apphook)"
 msgstr ""
+"Vyberte styl adres URL, který chcete použít, z příkladů. (Poznámka: všechny "
+"typy jsou relativní vzhledem k apphooku.)"
 
-#: cms_appconfig.py:51
-msgid "non-permalink handling"
-msgstr ""
-
-#: cms_appconfig.py:54
-msgid "How to handle non-permalink urls?"
-msgstr ""
-
-#: cms_appconfig.py:57
-msgid "Paginate size"
-msgstr "Velikost stránkování"
-
-#: cms_appconfig.py:60
-msgid "When paginating list views, how many articles per page?"
-msgstr "Pokud se objeví stránkování, kolik článků připadne na stránku?"
-
-#: cms_appconfig.py:63
-msgid "Pagination pages start"
-msgstr "Začátek stránkování"
-
-#: cms_appconfig.py:66
-msgid ""
-"When paginating list views, after how many pages should we start grouping "
-"the page numbers."
-msgstr ""
-
-#: cms_appconfig.py:70
-msgid "Pagination pages visible"
-msgstr ""
-
-#: cms_appconfig.py:73
-msgid ""
-"When grouping page numbers, this determines how many pages are visible on "
-"each side of the active page."
-msgstr ""
-
-#: cms_appconfig.py:77
-msgid "Excluded featured articles count"
-msgstr "Počet vyloučených doporučených článků"
-
-#: cms_appconfig.py:81
-msgid ""
-"If you are using the Featured Articles plugin on the article list view, you "
-"may prefer to exclude featured articles from the article list itself to "
-"avoid duplicates. To do this, enter the same number here as in your Featured"
-" Articles plugin."
-msgstr ""
-"Používáte-li zásuvný modul Doporučené články v zobrazení seznamu článků, můžete "
-"raději vyloučit vybrané články ze seznamu článků, abyste se vyhnuli duplikátům. "
-"Chcete-li to provést, zadejte stejné číslo jako v zásuvném modulu Doporučené články."
-
-#: cms_appconfig.py:90
-msgid "Prefix for template dirs"
-msgstr "Předpona pro složku se šablonami"
-
-#: cms_appconfig.py:94
-msgid "Auto-create authors?"
-msgstr "Automatické vytváření autorů?"
-
-#: cms_appconfig.py:96
-msgid "Automatically create authors from logged-in user?"
-msgstr "Automaticky vytvořit autory z přihlášených uživatelů?"
-
-#: cms_appconfig.py:101
-msgid "Include in search index?"
-msgstr "Zahrnout do indexu vyhledávání?"
-
-#: cms_appconfig.py:103
-msgid "Include articles in search indexes?"
-msgstr "Zahrnout články do indexů vyhledávání?"
-
-#: cms_appconfig.py:142
-msgid "untitled"
-msgstr "nepojmenovaný"
-
-#: cms_appconfig.py:145
-#| msgid "application title"
-msgid "application configuration"
-msgstr ""
-
-#: cms_appconfig.py:146
-#| msgid "application title"
-msgid "application configurations"
-msgstr ""
-
-#: cms_appconfig.py:151
-msgid "Post published by default"
-msgstr "Příspěvek publikován ve výchozím nastavení"
-
-#: cms_apps.py:15
-msgid "NewsBlog"
-msgstr ""
-
-#: cms_plugins.py:66
-msgid "Archive"
-msgstr "Archív"
-
-#: cms_plugins.py:86
-msgid "Article Search"
-msgstr "Vyhledávání v archívu"
-
-#: cms_plugins.py:100
-msgid "Authors"
-msgstr "Autoři"
-
-#: cms_plugins.py:118
-msgid "Categories"
-msgstr "Kategorie"
-
-#: cms_plugins.py:135
-msgid "Featured Articles"
-msgstr "Doporučené články"
-
-#: cms_plugins.py:149
-msgid "Latest Articles"
-msgstr "Nejnovější články"
-
-#: cms_plugins.py:163
-msgid "Related Articles"
-msgstr "Související články"
-
-#: cms_plugins.py:191
-msgid "Tags"
-msgstr "Značky"
-
-#: cms_toolbars.py:92
 msgid "Configure addon"
 msgstr "Konfigurovat addon"
 
-#: cms_toolbars.py:103
-msgid "Article list"
-msgstr "Seznam článků"
-
-#: cms_toolbars.py:110
-msgid "Add new article"
-msgstr "Přidat nový článek"
-
-#: cms_toolbars.py:118
-msgid "Edit this article"
-msgstr "Editovat tento článek"
-
-#: cms_toolbars.py:126
-msgid "Delete this article"
-msgstr "Smazat tento článek"
-
-#: cms_wizards.py:68
 msgid "Content"
 msgstr "Obsah"
 
-#: cms_wizards.py:72
-msgid ""
-"Optional. If provided, it will be added to the main body of the article as a"
-" text plugin, that can be formatted."
-msgstr ""
-
-#: cms_wizards.py:126
-msgid "Initial version."
-msgstr ""
-
-#: cms_wizards.py:132
-msgid "New news/blog article"
-msgstr "Nový news/blog článek"
-
-#: cms_wizards.py:135
 msgid "Create a new news/blog article."
 msgstr "Vytvořit nový news/blog článek"
 
-#: feeds.py:37
-#, python-format
-#| msgid "Articles on {0}"
-msgid "Articles on %(site_name)s"
-msgstr "Články na %(site_name)s"
+msgid "Delete this article"
+msgstr "Smazat tento článek"
 
-#: menu.py:20
-msgid "Aldryn NewsBlog Menu"
+msgid "Display \"No photo\" icon if the user does not have one."
+msgstr "Zobrazit ikonu „Žádná fotografie“, pokud uživatel žádnou nemá."
+
+msgid "Display No-photo icon"
+msgstr "Zobrazit ikonu No-photo"
+
+msgid "Don't show the author of the article."
+msgstr "Nezobrazovat autora článku."
+
+msgid "Edit this article"
+msgstr "Editovat tento článek"
+
+msgid "Enter a query above"
+msgstr "Zadejte hledaný text"
+
+msgid "Episode"
+msgstr "Díl seriálu"
+
+msgid "Excluded featured articles count"
+msgstr "Počet vyloučených doporučených článků"
+
+msgid "Featured Articles"
+msgstr "Doporučené články"
+
+msgid "Go"
+msgstr "Hledat"
+
+msgid "Hide author"
+msgstr "Skrýt autora"
+
+msgid "How to handle non-permalink urls?"
+msgstr "Jak zacházet s adresou URL bez trvalého odkazu?"
+
+msgid ""
+"If you are using the Featured Articles plugin on the article list view, you "
+"may prefer to exclude featured articles from the article list itself to "
+"avoid duplicates. To do this, enter the same number here as in your Featured "
+"Articles plugin."
 msgstr ""
+"Používáte-li zásuvný modul Doporučené články v zobrazení seznamu článků, "
+"můžete raději vyloučit vybrané články ze seznamu článků, abyste se vyhnuli "
+"duplikátům. Chcete-li to provést, zadejte stejné číslo jako v zásuvném "
+"modulu Doporučené články."
 
-#: models.py:77
-msgid "untitled-article"
-msgstr "clanek-bez-nazvu"
+msgid "Include articles in search indexes?"
+msgstr "Zahrnout články do indexů vyhledávání?"
 
-#: models.py:88
-msgid "title"
-msgstr "název"
+msgid "Include in search index?"
+msgstr "Zahrnout do indexu vyhledávání?"
+
+msgid "Keyword"
+msgstr "Klíčové slovo"
+
+msgid "Keyword search"
+msgstr "Hledání dle klíčových slov"
+
+msgid "Latest Articles"
+msgstr "Nejnovější články"
+
+msgid "Mark selected articles as featured"
+msgstr "Označit vybrané články jako významné"
+
+msgid "Mark selected articles as not featured"
+msgstr "Zrušit označení vybraných článků jako významné"
+
+msgid "Mark selected articles as not published"
+msgstr "Odpublikovat vybrané články"
+
+msgid "Mark selected articles as published"
+msgstr "Publikovat vybrané články"
+
+msgid "Meta Options"
+msgstr "Možnosti metadat"
+
+#, python-format
+msgid "Most recent articles containing \"<strong>%(query)s</strong>\""
+msgstr "Poslední články obsahující \"<strong>%(query)s</strong>\""
+
+msgid "Name"
+msgstr "Jméno"
+
+msgid "New news/blog article"
+msgstr "Nový news/blog článek"
+
+msgid "NewsBlog"
+msgstr "NewsBlog"
+
+msgid "Next"
+msgstr "Další"
+
+msgid "Next Article"
+msgstr "Další článek"
+
+msgid "No articles found"
+msgstr "Nebyly nalezeny žádné články"
+
+msgid "No items available"
+msgstr "Nejsou k dispozici žádné položky"
+
+msgid ""
+"Optional. If provided, it will be added to the main body of the article as a "
+"text plugin, that can be formatted."
+msgstr ""
+"Volitelné. Pokud je zadán, bude přidán do hlavní části článku jako textový "
+"plugin, který lze formátovat."
+
+msgid "Paginate size"
+msgstr "Velikost stránkování"
+
+msgid "Pagination pages start"
+msgstr "Začátek stránkování"
+
+msgid "Pagination pages visible"
+msgstr "Viditelné stránkování stránek"
+
+msgid "Permanent redirect to permalink"
+msgstr "Trvalé přesměrování na permalink"
+
+msgid "Post published by default"
+msgstr "Příspěvek publikován ve výchozím nastavení"
+
+msgid "Prefix for template dirs"
+msgstr "Předpona pro složku se šablonami"
+
+msgid "Previous"
+msgstr "Předchozí"
+
+msgid "Previous Article"
+msgstr "Předchozí článek"
+
+msgid "Redirect to permalink (default)"
+msgstr "Přesměrování na trvalý odkaz (výchozí)"
+
+msgid "Related Articles"
+msgstr "Související články"
+
+msgid "Related articles"
+msgstr "Související články"
+
+msgid "Return 404: Not Found"
+msgstr "Vrátit 404: Nenalezeno"
+
+msgid "Section"
+msgstr "Sekce"
+
+msgid "Sections"
+msgstr "Sekce"
+
+msgid "Serial"
+msgstr "Seriál"
 
 msgid "Serial Options"
 msgstr "Seriál nastavení"
@@ -381,146 +272,138 @@ msgstr "Seriál nastavení"
 msgid "Serial episodes"
 msgstr "Díly seriálu"
 
-msgid "Serial"
-msgstr "Seriál"
+msgid "Tags"
+msgstr "Značky"
 
-msgid "Episode"
-msgstr "Díl seriálu"
-
-#: models.py:90
-msgid "slug"
-msgstr ""
-
-#: models.py:95
-msgid ""
-"Used in the URL. If changed, the URL will change. Clear it to have it re-"
-"created automatically."
-msgstr ""
-
-#: models.py:99
-msgid "lead"
-msgstr "úvod"
-
-#: models.py:101
 msgid ""
 "The lead gives the reader the main idea of the story, this is useful in "
 "overviews, lists or as an introduction to your article."
 msgstr ""
+"Úvod dává čtenáři hlavní myšlenku příběhu, což je užitečné v přehledech, "
+"seznamech nebo jako úvod k vašemu článku."
 
-#: models.py:108
-msgid "meta title"
-msgstr ""
-
-#: models.py:111
-msgid "meta description"
-msgstr ""
-
-#: models.py:113
-msgid "meta keywords"
-msgstr ""
-
-#: models.py:122
-msgid "author"
-msgstr "autor"
-
-#: models.py:123
-msgid "owner"
-msgstr "vlastník"
-
-#: models.py:125 models.py:286
-msgid "Apphook configuration"
-msgstr ""
-
-#: models.py:127
-msgid "categories"
-msgstr "kategorie"
-
-#: models.py:129
-msgid "publishing date"
-msgstr "datum publikování"
-
-#: models.py:131
-msgid "is published"
-msgstr "je publikován"
-
-#: models.py:133
-msgid "is featured"
-msgstr "je doporučen"
-
-#: models.py:136
-#| msgid "featured article"
-msgid "featured image"
-msgstr "obrázek k doporučení"
-
-#: models.py:152
-msgid "related articles"
-msgstr "související články"
-
-#: models.py:271
 msgid ""
 "The maximum duration (in seconds) that this plugin's content should be "
 "cached."
 msgstr ""
+"Maximální doba (v sekundách), po kterou má být obsah tohoto pluginu uložen "
+"do mezipaměti."
 
-#: models.py:301 models.py:312
-#, python-format
-msgid "%s archive"
-msgstr "%s archívů"
-
-#: models.py:306
-msgid "max articles"
-msgstr "max článků"
-
-#: models.py:308
-msgid "The maximum number of found articles display."
-msgstr "Zobrazí se maximální počet nalezených článků."
-
-#: models.py:353
-#, python-format
-msgid "%s authors"
-msgstr "%s autorů"
-
-#: models.py:359
-#, python-format
-msgid "%s categories"
-msgstr "%s kategorií"
-
-#: models.py:403
 msgid "The maximum number of featured articles display."
 msgstr "Zobrazí se maximální počet nalezených článků."
 
-#: models.py:426
-msgid "featured article"
-msgstr "doporučený článek"
-
-#: models.py:428
-#, python-format
-msgid "featured articles: %(count)s"
-msgstr "doporučené články: %(count)s"
-
-#: models.py:440
-msgid "The maximum number of latest articles to display."
-msgstr "Zobrazí se maximální počet posledních článků."
-
-#: models.py:446
 msgid ""
 "The maximum number of featured articles to exclude from display. E.g. for "
 "uses in combination with featured articles plugin."
 msgstr ""
+"Maximální počet doporučených článků, které se mají vyloučit ze zobrazení. "
+"Např. pro použití v kombinaci s pluginem doporučené články."
 
-#: models.py:474
-#, python-format
-msgid "%(app_title)s latest articles: %(latest_articles)s"
-msgstr "%(app_title)s nejnověnší články: %(latest_articles)s"
+msgid "The maximum number of found articles display."
+msgstr "Zobrazí se maximální počet nalezených článků."
 
-#: models.py:502
-msgid "Related articles"
-msgstr "Související články"
-
-#: models.py:544
-#, python-format
-msgid "%s tags"
-msgstr "%s značek"
+msgid "The maximum number of latest articles to display."
+msgstr "Zobrazí se maximální počet posledních článků."
 
 msgid "Total episodes"
 msgstr "Díly celkem"
+
+msgid ""
+"Used in the URL. If changed, the URL will change. Clear it to have it re-"
+"created automatically."
+msgstr ""
+"Použito v URL. Pokud se změní, URL se změní. Vymažte toto políčko, aby se "
+"automaticky znovu vytvořilo."
+
+msgid "View Published"
+msgstr "Zobrazit zveřejněné"
+
+msgid ""
+"When grouping page numbers, this determines how many pages are visible on "
+"each side of the active page."
+msgstr ""
+"Při seskupování čísel stránek toto určuje, kolik stránek je viditelných na "
+"každé straně aktivní stránky."
+
+msgid ""
+"When paginating list views, after how many pages should we start grouping "
+"the page numbers."
+msgstr ""
+"Při stránkování seznamů, po kolika stránkách bychom měli začít seskupovat "
+"čísla stránek?"
+
+msgid "When paginating list views, how many articles per page?"
+msgstr "Pokud se objeví stránkování, kolik článků připadne na stránku?"
+
+msgid "author"
+msgstr "autor"
+
+msgid "by"
+msgstr "podle"
+
+msgid "categories"
+msgstr "kategorie"
+
+msgid "featured article"
+msgstr "doporučený článek"
+
+#, python-format
+msgid "featured articles: %(count)s"
+msgstr "doporučené články: %(count)s"
+
+msgid "featured image"
+msgstr "obrázek k doporučení"
+
+msgid "is featured"
+msgstr "je doporučen"
+
+msgid "is published"
+msgstr "je publikován"
+
+msgid "lead"
+msgstr "úvod"
+
+msgid "max articles"
+msgstr "max článků"
+
+msgid "meta description"
+msgstr "meta description"
+
+msgid "meta keywords"
+msgstr "meta keywords"
+
+msgid "meta title"
+msgstr "meta title"
+
+msgid "name"
+msgstr "jméno"
+
+msgid "non-permalink handling"
+msgstr "non-permalink handling"
+
+msgid "owner"
+msgstr "vlastník"
+
+msgid "permalink type"
+msgstr "typ permalinku"
+
+msgid "publishing date"
+msgstr "datum publikování"
+
+msgid "related articles"
+msgstr "související články"
+
+msgid "slug"
+msgstr "slug"
+
+msgid "the-eagle-has-landed/"
+msgstr "the-eagle-has-landed/"
+
+msgid "title"
+msgstr "název"
+
+msgid "untitled"
+msgstr "nepojmenovaný"
+
+msgid "untitled-article"
+msgstr "clanek-bez-nazvu"

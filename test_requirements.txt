@@ -20,8 +20,12 @@ djangocms-admin-style
 django-app-helper
 djangocms-text-ckeditor
 docopt
+pydocstyle
 flake8
+isort
+mypy
 tox>=2.9.1
+polint
 pyflakes
 selenium
 python-dateutil
