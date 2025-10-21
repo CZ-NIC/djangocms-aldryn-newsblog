@@ -8,6 +8,7 @@ Unreleased
 ==================
 
 * Set version django-cms >= 4.1,<6.
+* Fix menu in toolbar.
 
 4.0.1 (2025-10-09)
 ==================
