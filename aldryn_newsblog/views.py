@@ -5,7 +5,7 @@ from django.http import (
     Http404, HttpResponsePermanentRedirect, HttpResponseRedirect,
 )
 from django.shortcuts import get_object_or_404
-from django.utils import translation
+from django.utils import timezone, translation
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 
@@ -410,21 +410,22 @@ class DateRangeArticleList(ArticleListBase):
 
 class YearArticleList(DateRangeArticleList):
     def _daterange_from_kwargs(self, kwargs):
-        date_from = datetime(int(kwargs['year']), 1, 1)
+        date_from = timezone.make_aware(datetime(int(kwargs['year']), 1, 1), timezone.get_default_timezone())
         date_to = date_from + relativedelta(years=1)
         return date_from, date_to
 
 
 class MonthArticleList(DateRangeArticleList):
     def _daterange_from_kwargs(self, kwargs):
-        date_from = datetime(int(kwargs['year']), int(kwargs['month']), 1)
+        date_from = timezone.make_aware(datetime(int(kwargs['year']), int(kwargs['month']), 1),
+                                        timezone.get_default_timezone())
         date_to = date_from + relativedelta(months=1)
         return date_from, date_to
 
 
 class DayArticleList(DateRangeArticleList):
     def _daterange_from_kwargs(self, kwargs):
-        date_from = datetime(
-            int(kwargs['year']), int(kwargs['month']), int(kwargs['day']))
+        date_from = timezone.make_aware(datetime(
+            int(kwargs['year']), int(kwargs['month']), int(kwargs['day'])), timezone.get_default_timezone())
         date_to = date_from + relativedelta(days=1)
         return date_from, date_to
