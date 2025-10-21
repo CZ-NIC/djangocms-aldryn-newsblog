@@ -4,11 +4,11 @@ Changelog
 Unreleased
 ==========
 
-4.1.0 (2025-10-21)
+4.0.2 (2025-10-21)
 ==================
 
-* Set version django-cms >= 4.1,<6.
 * Fix menu in toolbar.
+* Add make_aware into articles lists.
 
 4.0.1 (2025-10-09)
 ==================
