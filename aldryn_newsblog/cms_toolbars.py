@@ -85,11 +85,11 @@ class NewsBlogToolbar(CMSToolbar):
         self.add_article_button()
 
     def add_article_button(self):
-        article = self.request.toolbar.get_object()
-        if article is None:
+        obj = self.request.toolbar.get_object()
+        if obj is None or not isinstance(obj, Article):
             return
         with override(get_language_from_request(self.request)):
-            url = article.get_absolute_url()
+            url = obj.get_absolute_url()
         item = ButtonList(side=self.toolbar.RIGHT)
         item.add_button(
             _('View Published'),
