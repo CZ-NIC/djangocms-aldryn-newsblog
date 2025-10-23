@@ -4,6 +4,11 @@ Changelog
 Unreleased
 ==========
 
+4.0.3 (2025-10-23)
+==================
+
+* Fix get_absolute_url in NewsBlogToolbar.add_article_button.
+
 4.0.2 (2025-10-21)
 ==================
 
