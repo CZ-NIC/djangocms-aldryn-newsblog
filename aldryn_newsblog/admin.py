@@ -4,7 +4,9 @@ from django.contrib import admin
 from django.urls.exceptions import NoReverseMatch
 from django.utils.translation import gettext_lazy as _
 
-from cms.admin.placeholderadmin import BaseEditableAdminMixin, FrontendEditableAdminMixin
+from cms.admin.placeholderadmin import (
+    FrontendEditableAdminMixin, PlaceholderAdminMixin,
+)
 
 from aldryn_apphooks_config.admin import BaseAppHookConfig, ModelAppHookConfig
 from aldryn_people.models import Person
@@ -100,8 +102,8 @@ class ArticleAdminForm(TranslatableModelForm):
 
 class ArticleAdmin(
     AllTranslationsMixin,
+    PlaceholderAdminMixin,
     FrontendEditableAdminMixin,
-    BaseEditableAdminMixin,
     ModelAppHookConfig,
     TranslatableAdmin
 ):
@@ -209,7 +211,7 @@ admin.site.register(models.Serial, SerialAdmin)
 
 class NewsBlogConfigAdmin(
     AllTranslationsMixin,
-    BaseEditableAdminMixin,
+    PlaceholderAdminMixin,
     BaseAppHookConfig,
     TranslatableAdmin
 ):

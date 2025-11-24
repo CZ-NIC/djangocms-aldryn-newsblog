@@ -3,7 +3,7 @@ from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from cms.models.fields import PlaceholderRelationField
+from cms.models.fields import PlaceholderField
 
 from aldryn_apphooks_config.models import AppHookConfig
 from aldryn_apphooks_config.utils import setup_config
@@ -109,37 +109,37 @@ class NewsBlogConfig(TranslatableModel, AppHookConfig):
         help_text=_('Include articles in search indexes?'),
     )
 
-    placeholder_base_top = PlaceholderRelationField(
+    placeholder_base_top = PlaceholderField(
         'newsblog_base_top',
         related_name='aldryn_newsblog_base_top',
     )
 
-    placeholder_base_sidebar = PlaceholderRelationField(
+    placeholder_base_sidebar = PlaceholderField(
         'newsblog_base_sidebar',
         related_name='aldryn_newsblog_base_sidebar',
     )
 
-    placeholder_list_top = PlaceholderRelationField(
+    placeholder_list_top = PlaceholderField(
         'newsblog_list_top',
         related_name='aldryn_newsblog_list_top',
     )
 
-    placeholder_list_footer = PlaceholderRelationField(
+    placeholder_list_footer = PlaceholderField(
         'newsblog_list_footer',
         related_name='aldryn_newsblog_list_footer',
     )
 
-    placeholder_detail_top = PlaceholderRelationField(
+    placeholder_detail_top = PlaceholderField(
         'newsblog_detail_top',
         related_name='aldryn_newsblog_detail_top',
     )
 
-    placeholder_detail_bottom = PlaceholderRelationField(
+    placeholder_detail_bottom = PlaceholderField(
         'newsblog_detail_bottom',
         related_name='aldryn_newsblog_detail_bottom',
     )
 
-    placeholder_detail_footer = PlaceholderRelationField(
+    placeholder_detail_footer = PlaceholderField(
         'newsblog_detail_footer',
         related_name='aldryn_newsblog_detail_footer',
     )
