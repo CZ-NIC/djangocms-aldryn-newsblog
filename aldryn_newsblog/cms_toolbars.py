@@ -1,3 +1,5 @@
+from typing import Any, Optional, Union
+
 from django.urls import reverse
 from django.utils.translation import get_language_from_request
 from django.utils.translation import gettext as _
@@ -21,10 +23,13 @@ class NewsBlogToolbar(CMSToolbar):
     watch_models = [Article]
     supported_apps = ['aldryn_newsblog']
 
-    def get_on_delete_redirect_url(self, article, language):
-        with override(language):
-            url = reverse(
-                f'{article.app_config.namespace}:article-list')
+    def get_on_delete_redirect_url(self, content: Union[Article, Any], language: str) -> Optional[str]:
+        """Get on_delete_redirect url or None if content is not Article type."""
+        # content can be cms.models.PageContent
+        url = None
+        if isinstance(content, Article):
+            with override(language):
+                url = reverse(f'{content.app_config.namespace}:article-list')
         return url
 
     def populate(self):
@@ -74,8 +79,9 @@ class NewsBlogToolbar(CMSToolbar):
 
                 if delete_article_perm:
                     redirect_url = self.get_on_delete_redirect_url(obj, language=language)
-                    url = get_admin_url('aldryn_newsblog_article_delete', [obj.pk])
-                    menu.add_modal_item(_('Delete this article'), url=url, on_close=redirect_url)
+                    if redirect_url is not None:
+                        url = get_admin_url('aldryn_newsblog_article_delete', [obj.pk])
+                        menu.add_modal_item(_('Delete this article'), url=url, on_close=redirect_url)
 
     def post_template_populate(self):
         # Disable call self.add_wizard_button().

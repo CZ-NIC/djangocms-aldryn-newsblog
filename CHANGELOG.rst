@@ -4,6 +4,11 @@ Changelog
 Unreleased
 ==========
 
+4.0.4 (2026-04-14)
+==================
+
+* Fix NewsBlogToolbar.get_on_delete_redirect_url in cms_toolbars.
+
 4.0.3 (2025-10-23)
 ==================
 
