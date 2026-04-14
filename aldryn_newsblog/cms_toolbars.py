@@ -1,5 +1,3 @@
-from typing import Any, Optional, Union
-
 from django.urls import reverse
 from django.utils.translation import get_language_from_request
 from django.utils.translation import gettext as _
@@ -23,14 +21,10 @@ class NewsBlogToolbar(CMSToolbar):
     watch_models = [Article]
     supported_apps = ['aldryn_newsblog']
 
-    def get_on_delete_redirect_url(self, content: Union[Article, Any], language: str) -> Optional[str]:
-        """Get on_delete_redirect url or None if content is not Article type."""
-        # content can be cms.models.PageContent
-        url = None
-        if isinstance(content, Article):
-            with override(language):
-                url = reverse(f'{content.app_config.namespace}:article-list')
-        return url
+    def get_on_delete_redirect_url(self, article: Article, language: str) -> str:
+        """Get on_delete_redirect url."""
+        with override(language):
+            return reverse(f'{article.app_config.namespace}:article-list')
 
     def populate(self):
         if not self.is_current_app:
@@ -72,16 +66,15 @@ class NewsBlogToolbar(CMSToolbar):
         if self.request.resolver_match.url_name == "article-detail" and \
                 "aldryn_newsblog" in self.request.resolver_match.app_names:
             obj = self.request.toolbar.get_object()
-            if obj:
+            if obj and isinstance(obj, Article):
                 if change_article_perm:
                     change_article_url = get_admin_url('aldryn_newsblog_article_change', [obj.pk], language=language)
                     menu.add_modal_item(_('Edit this article'), url=change_article_url, active=True)
 
                 if delete_article_perm:
                     redirect_url = self.get_on_delete_redirect_url(obj, language=language)
-                    if redirect_url is not None:
-                        url = get_admin_url('aldryn_newsblog_article_delete', [obj.pk])
-                        menu.add_modal_item(_('Delete this article'), url=url, on_close=redirect_url)
+                    url = get_admin_url('aldryn_newsblog_article_delete', [obj.pk])
+                    menu.add_modal_item(_('Delete this article'), url=url, on_close=redirect_url)
 
     def post_template_populate(self):
         # Disable call self.add_wizard_button().
