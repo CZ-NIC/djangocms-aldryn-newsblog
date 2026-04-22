@@ -37,6 +37,11 @@ class NewsBlogToolbar(CMSToolbar):
             name = " ".join(self.request.resolver_match.namespaces) if config is None else str(config)
             label = f"{label} – {name}"
 
+        if config is None and self.request.current_page.application_namespace:
+            config = NewsBlogConfig.objects.filter(namespace=self.request.current_page.application_namespace).first()
+            name = " ".join(self.request.current_page.application_namespace) if config is None else str(config)
+            label = f"{label} – {name}"
+
         menu = self.toolbar.get_or_create_menu('newsblog-app', label)
 
         user = getattr(self.request, 'user', None)
