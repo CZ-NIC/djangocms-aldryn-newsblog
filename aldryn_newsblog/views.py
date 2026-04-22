@@ -245,6 +245,7 @@ class ArticleList(ArticleListBase):
         return self.get(request, *args, **kwargs)
 
     def get_queryset(self):
+        # self.namespace = "aldryn_newsblog_default"  # TODO: Set the namespace.
         qs = super().get_queryset()
         if self.config is not None:
             # exclude featured articles from queryset, to allow featured article
