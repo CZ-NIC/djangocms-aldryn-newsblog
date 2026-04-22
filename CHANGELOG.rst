@@ -4,6 +4,8 @@ Changelog
 Unreleased
 ==========
 
+* Fix request.is_ajax in views.
+
 4.0.4 (2026-04-14)
 ==================
 

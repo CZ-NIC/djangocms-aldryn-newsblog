@@ -300,7 +300,7 @@ class ArticleSearchResultsList(ArticleListBase):
         return cxt
 
     def get_template_names(self):
-        if self.request.is_ajax:
+        if self.request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':  # self.request.is_ajax
             template_names = [self.partial_name]
         else:
             template_names = [self.template_name]
