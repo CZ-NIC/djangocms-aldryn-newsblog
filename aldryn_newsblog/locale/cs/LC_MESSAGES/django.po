@@ -396,6 +396,9 @@ msgstr "související články"
 msgid "slug"
 msgstr "slug"
 
+msgid "Template list"
+msgstr "Seznam šablon"
+
 msgid "the-eagle-has-landed/"
 msgstr "the-eagle-has-landed/"
 

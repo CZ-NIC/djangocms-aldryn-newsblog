@@ -39,6 +39,19 @@ class NewsBlogPlugin(TemplatePrefixMixin, CMSPluginBase):
         return context
 
 
+class TempateListMixin:
+    """Tempate List Mixin."""
+
+    def get_render_template(self, context, instance, placeholder) -> str:
+        if instance.template_list:
+            try:
+                get_template(instance.template_list)
+                return instance.template_list
+            except TemplateDoesNotExist:
+                pass
+        return super().get_render_template(context, instance, placeholder)
+
+
 class AdjustableCacheMixin:
     """
     For django CMS < 3.3.0 installations, we have no choice but to disable the
@@ -69,7 +82,7 @@ class AdjustableCacheMixin:
 
 
 @plugin_pool.register_plugin
-class NewsBlogArchivePlugin(AdjustableCacheMixin, NewsBlogPlugin):
+class NewsBlogArchivePlugin(AdjustableCacheMixin, TempateListMixin, NewsBlogPlugin):
     render_template = 'aldryn_newsblog/plugins/archive.html'
     name = _('Archive')
     model = models.NewsBlogArchivePlugin
@@ -90,7 +103,7 @@ class NewsBlogArchivePlugin(AdjustableCacheMixin, NewsBlogPlugin):
 
 
 @plugin_pool.register_plugin
-class NewsBlogArticleSearchPlugin(NewsBlogPlugin):
+class NewsBlogArticleSearchPlugin(TempateListMixin, NewsBlogPlugin):
     render_template = 'aldryn_newsblog/plugins/article_search.html'
     name = _('Article Search')
     model = models.NewsBlogArticleSearchPlugin
@@ -105,7 +118,7 @@ class NewsBlogArticleSearchPlugin(NewsBlogPlugin):
 
 
 @plugin_pool.register_plugin
-class NewsBlogAuthorsPlugin(NewsBlogPlugin):
+class NewsBlogAuthorsPlugin(TempateListMixin, NewsBlogPlugin):
     render_template = 'aldryn_newsblog/plugins/authors.html'
     name = _('Authors')
     model = models.NewsBlogAuthorsPlugin
@@ -124,7 +137,7 @@ class NewsBlogAuthorsPlugin(NewsBlogPlugin):
 
 
 @plugin_pool.register_plugin
-class NewsBlogCategoriesPlugin(NewsBlogPlugin):
+class NewsBlogCategoriesPlugin(TempateListMixin, NewsBlogPlugin):
     render_template = 'aldryn_newsblog/plugins/categories.html'
     name = _('Categories')
     model = models.NewsBlogCategoriesPlugin
@@ -143,7 +156,7 @@ class NewsBlogCategoriesPlugin(NewsBlogPlugin):
 
 
 @plugin_pool.register_plugin
-class NewsBlogFeaturedArticlesPlugin(NewsBlogPlugin):
+class NewsBlogFeaturedArticlesPlugin(TempateListMixin, NewsBlogPlugin):
     render_template = 'aldryn_newsblog/plugins/featured_articles.html'
     name = _('Featured Articles')
     model = models.NewsBlogFeaturedArticlesPlugin
@@ -158,7 +171,7 @@ class NewsBlogFeaturedArticlesPlugin(NewsBlogPlugin):
 
 
 @plugin_pool.register_plugin
-class NewsBlogLatestArticlesPlugin(AdjustableCacheMixin, NewsBlogPlugin):
+class NewsBlogLatestArticlesPlugin(AdjustableCacheMixin, TempateListMixin, NewsBlogPlugin):
     render_template = 'aldryn_newsblog/plugins/latest_articles.html'
     name = _('Latest Articles')
     model = models.NewsBlogLatestArticlesPlugin
@@ -202,7 +215,7 @@ class NewsBlogRelatedPlugin(AdjustableCacheMixin, NewsBlogPlugin):
 
 
 @plugin_pool.register_plugin
-class NewsBlogTagsPlugin(NewsBlogPlugin):
+class NewsBlogTagsPlugin(TempateListMixin, NewsBlogPlugin):
     render_template = 'aldryn_newsblog/plugins/tags.html'
     name = _('Tags')
     model = models.NewsBlogTagsPlugin

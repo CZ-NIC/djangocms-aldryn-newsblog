@@ -4,6 +4,7 @@ Changelog
 Unreleased
 ==========
 
+* Add field template_list into plugins.
 * Fix template pagination for view search.
 * Fix request.is_ajax in views.
 

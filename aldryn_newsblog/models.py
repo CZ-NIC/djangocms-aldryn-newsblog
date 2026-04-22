@@ -319,6 +319,13 @@ class NewsBlogCMSPlugin(CMSPlugin):
         on_delete=models.CASCADE,
     )
 
+    template_list = models.CharField(
+        verbose_name=_("Template list"),
+        null=True,
+        blank=True,
+        max_length=255,
+    )
+
     class Meta:
         abstract = True
 
