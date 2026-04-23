@@ -32,10 +32,12 @@ class NewsBlogToolbar(CMSToolbar):
 
         label = _("NewsBlog")
         config = None
-        if "aldryn_newsblog" in self.request.resolver_match.app_names:
-            config = NewsBlogConfig.objects.filter(namespace__in=self.request.resolver_match.namespaces).first()
-            name = " ".join(self.request.resolver_match.namespaces) if config is None else str(config)
-            label = f"{label} – {name}"
+        if self.request.current_page.application_namespace is not None:
+            try:
+                config = NewsBlogConfig.objects.get(namespace=self.request.current_page.application_namespace)
+                label = f"{label} – {config}"
+            except NewsBlogConfig.DoesNotExist:
+                pass
 
         menu = self.toolbar.get_or_create_menu('newsblog-app', label)
 
