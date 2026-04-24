@@ -4,6 +4,7 @@ Changelog
 Unreleased
 ==========
 
+* Set NewsBlogConfig.pk as a string type.
 * Fix template pagination for view search.
 * Fix request.is_ajax in views.
 
