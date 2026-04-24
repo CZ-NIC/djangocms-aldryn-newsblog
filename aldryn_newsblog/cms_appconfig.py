@@ -154,18 +154,18 @@ class NewsBlogConfig(TranslatableModel, AppHookConfig):
     def __str__(self):
         return self.safe_translation_getter('app_title')
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self._str_pk = str(args[0])  # Fixed `pk` conversion to string type...
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     self._str_pk = str(args[0])  # Fixed `pk` conversion to string type...
 
-    @property
-    def pk(self):
-        # Fixed `pk` conversion to string type `str(config.pk)` while value is left as int type.
-        # This will prevent the select attribute in the option element from being set.
-        # https://github.com/django-cms/django-cms/blob/release/5.0.x/cms/forms/widgets.py#L220
-        # https://github.com/django-cms/django-cms/blob/release/5.0.x/cms/forms/widgets.py#L231
-        # Pull request: https://github.com/django-cms/django-cms/pull/8594
-        return self._str_pk
+    # @property
+    # def pk(self):
+    #     # Fixed `pk` conversion to string type `str(config.pk)` while value is left as int type.
+    #     # This will prevent the select attribute in the option element from being set.
+    #     # https://github.com/django-cms/django-cms/blob/release/5.0.x/cms/forms/widgets.py#L220
+    #     # https://github.com/django-cms/django-cms/blob/release/5.0.x/cms/forms/widgets.py#L231
+    #     # Pull request: https://github.com/django-cms/django-cms/pull/8594
+    #     return self._str_pk
 
 
 class NewsBlogConfigForm(AppDataForm):
