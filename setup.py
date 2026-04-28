@@ -5,6 +5,7 @@ from aldryn_newsblog import __version__
 
 
 REQUIREMENTS = [
+    # aldryn-apphooks-config @ git+https://github.com/CZ-NIC/aldryn-apphooks-config@fix-draft-mode
     'aldryn-apphooks-config~=0.7',
     'djangocms-aldryn-categories~=2.0',
     'djangocms-aldryn-common~=2.0',
