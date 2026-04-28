@@ -1,15 +1,9 @@
 from collections.abc import Iterable
 from typing import Any, Dict
 
+import django
 from django import template
 from django.template.loader import TemplateDoesNotExist, get_template
-
-
-try:
-    from django.template.defaulttags import querystring
-    querystring_missing = False
-except ImportError:
-    querystring_missing = True
 
 
 register = template.Library()
@@ -38,7 +32,7 @@ def prepend_prefix_if_exists(context: Dict[str, Any], path_and_name: str) -> str
     return path
 
 
-if querystring_missing:
+if django.VERSION < (5, 0):
 
     @register.simple_tag(name="querystring", takes_context=True)
     def querystring(context, query_dict=None, **kwargs):
