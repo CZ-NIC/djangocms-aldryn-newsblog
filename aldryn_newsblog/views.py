@@ -341,8 +341,8 @@ class CategoryArticleList(ArticleListBase):
         )
 
     def get(self, request, category, *args, **kwargs):
-        self.category = get_object_or_404(
-            Category, translations__slug=category)
+        language = translation.get_language_from_request(request, check_path=True)
+        self.category = get_object_or_404(Category, translations__slug=category, translations__language_code=language)
         return super().get(request, *args, **kwargs)
 
     def post(self, request, category, *args, **kwargs):

@@ -5,6 +5,7 @@ Unreleased
 ==========
 
 * Enable edit PageContent.
+* Fix get Category in CategoryArticleList.get.
 * Fix template pagination for view search.
 * Fix request.is_ajax in views.
 

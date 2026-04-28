@@ -1,6 +1,6 @@
 djangocms-alias
 djangocms-versioning
-djangocms-aldryn-categories
+djangocms-aldryn-categories @ git+https://github.com/CZ-NIC/djangocms-aldryn-categories
 djangocms-aldryn-people
 django-haystack
 django-taggit
