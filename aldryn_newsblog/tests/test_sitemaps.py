@@ -13,21 +13,22 @@ class TestSitemaps(NewsBlogTestCase):
         urls = [url_info['location'] for url_info in urls_info]
         return urls
 
-    def _article_urls(self, articles, lang):
+    def _article_urls(self, articles, lang, sitemap):
         self.request = self.get_request(lang)
-        host = 'https://' + get_current_site(self.request).domain
+        protocol = sitemap.get_protocol(None)
+        host = protocol + '://' + get_current_site(self.request).domain
         return [host + article.get_absolute_url(lang) for article in articles]
 
     def assertArticlesIn(self, articles, sitemap):
         urls = self._sitemap_urls(sitemap)
-        article_urls = self._article_urls(articles, sitemap.language)
+        article_urls = self._article_urls(articles, sitemap.language, sitemap)
 
         for url in article_urls:
             self.assertIn(url, urls)
 
     def assertArticlesNotIn(self, articles, sitemap):
         urls = self._sitemap_urls(sitemap)
-        article_urls = self._article_urls(articles, sitemap.language)
+        article_urls = self._article_urls(articles, sitemap.language, sitemap)
 
         for url in article_urls:
             self.assertNotIn(url, urls)
@@ -35,7 +36,8 @@ class TestSitemaps(NewsBlogTestCase):
     def assertSitemapLanguage(self, sitemap, lang):
         self.request = self.get_request(lang)
         urls = self._sitemap_urls(sitemap)
-        host = 'https://' + get_current_site(self.request).domain
+        protocol = sitemap.get_protocol(None)
+        host = protocol + '://' + get_current_site(self.request).domain
         url_start = f"{host}/{lang}"
 
         for url in urls:
