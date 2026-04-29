@@ -5,6 +5,7 @@ from random import randint
 
 from django.conf import settings
 from django.core.files import File as DjangoFile
+from django.test import RequestFactory
 from django.urls import NoReverseMatch, reverse
 from django.utils.timezone import make_aware
 from django.utils.timezone import now as django_timezone_now
@@ -418,10 +419,11 @@ class TestVariousViews(NewsBlogTestCase):
         article.save()
         months[-1]['num_articles'] -= 1
 
+        request = RequestFactory().get("/")
         self.assertEqual(
             sorted(
                 Article.objects.get_months(
-                    request=None, namespace=self.app_config.namespace
+                    request=request, namespace=self.app_config.namespace
                 ), key=itemgetter('num_articles')), months)
 
     def test_articles_count_by_author(self):

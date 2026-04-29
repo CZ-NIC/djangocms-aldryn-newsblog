@@ -415,6 +415,10 @@ class YearArticleList(DateRangeArticleList):
         return date_from, date_to
 
 
+class YearCategoryArticleList(YearArticleList, CategoryArticleList):
+    """Year and Category Article List."""
+
+
 class MonthArticleList(DateRangeArticleList):
     def _daterange_from_kwargs(self, kwargs):
         date_from = timezone.make_aware(datetime(int(kwargs['year']), int(kwargs['month']), 1),

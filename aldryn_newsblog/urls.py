@@ -4,7 +4,7 @@ from aldryn_newsblog.feeds import CategoryFeed, LatestArticlesFeed, TagFeed
 from aldryn_newsblog.views import (
     ArticleDetail, ArticleList, ArticleSearchResultsList, AuthorArticleList,
     CategoryArticleList, DayArticleList, MonthArticleList, TagArticleList,
-    YearArticleList,
+    YearArticleList, YearCategoryArticleList,
 )
 
 
@@ -27,6 +27,8 @@ urlpatterns = [
             name='article-list-by-day'),
     re_path(r'^(?P<year>\d{4})/(?P<month>\d{1,2})/$', MonthArticleList.as_view(), name='article-list-by-month'),
     re_path(r'^(?P<year>\d{4})/$', YearArticleList.as_view(), name='article-list-by-year'),
+    re_path(r'^year/(?P<year>\d{4})/category/(?P<category>\w[-\w]*)/$', YearCategoryArticleList.as_view(),
+            name='article-list-by-year-and-category'),
 
     # Various permalink styles that we support
     # ----------------------------------------

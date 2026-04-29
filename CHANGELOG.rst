@@ -4,7 +4,14 @@ Changelog
 Unreleased
 ==========
 
+4.1.0 (2026-04-29)
+==================
+
+* Add view YearCategoryArticleList.
+* Add plugins SelectCategoriesPlugin, SelectYearPlugin, MonthYearLinksPlugin.
+* Install djangocms-aldryn-apphooks-config.
 * Enable edit PageContent.
+* Fix RelatedManager.get_months to filter current language.
 * Fix get Category in CategoryArticleList.get.
 * Fix template pagination for view search.
 * Fix request.is_ajax in views.
