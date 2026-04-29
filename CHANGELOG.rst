@@ -4,6 +4,7 @@ Changelog
 Unreleased
 ==========
 
+* Add view YearCategoryArticleList.
 * Enable edit PageContent.
 * Fix get Category in CategoryArticleList.get.
 * Fix template pagination for view search.
