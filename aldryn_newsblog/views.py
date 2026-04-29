@@ -300,7 +300,7 @@ class ArticleSearchResultsList(ArticleListBase):
         return cxt
 
     def get_template_names(self):
-        if self.request.is_ajax:
+        if self.request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':  # self.request.is_ajax
             template_names = [self.partial_name]
         else:
             template_names = [self.template_name]
@@ -341,8 +341,8 @@ class CategoryArticleList(ArticleListBase):
         )
 
     def get(self, request, category, *args, **kwargs):
-        self.category = get_object_or_404(
-            Category, translations__slug=category)
+        language = translation.get_language_from_request(request, check_path=True)
+        self.category = get_object_or_404(Category, translations__slug=category, translations__language_code=language)
         return super().get(request, *args, **kwargs)
 
     def post(self, request, category, *args, **kwargs):

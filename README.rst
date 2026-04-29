@@ -31,6 +31,29 @@ configure and use Aldryn News & Blog.
 
 You can also find instructions on `how to upgrade`_ from earlier versions.
 
+----------
+Quick Help
+----------
+
+.. code:: python
+
+    pip install djangocms-aldryn-newsblog
+
+
+Add into ``INSTALL_APPS``:
+
+.. code:: python
+
+    'aldryn_apphooks_config',
+    'aldryn_categories',
+    'aldryn_common',
+    'aldryn_newsblog',
+    'aldryn_people',
+    'aldryn_translation_tools',
+    'sortedm2m',
+    'taggit',
+
+
 .. _documentation: http://aldryn-newsblog.readthedocs.io/en/latest/
 .. _how to upgrade: http://aldryn-newsblog.readthedocs.io/en/latest/upgrade.html
 
