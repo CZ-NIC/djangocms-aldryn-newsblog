@@ -81,24 +81,28 @@ class NewsBlogToolbar(CMSToolbar):
                     menu.add_modal_item(_('Delete this article'), url=url, on_close=redirect_url)
         try:
             self.enable_edit_page_content(language)
-        except (Resolver404, ContentType.DoesNotExist, PageContent.DoesNotExist):
+        except (ContentType.DoesNotExist, PageContent.DoesNotExist):
             pass
 
     def enable_edit_page_content(self, language: str) -> None:
         """Enable edit PageContent."""
-        view_func, args, kwargs = resolve(self.request.path)
-        if view_func.__name__ in ("render_object_edit", "render_object_preview") and len(args) == 2:
-            content_type_id, object_id = args
-            content_type = ContentType.objects.get_for_id(content_type_id)
-            model = content_type.model_class()
-            if not issubclass(model, PageContent):
-                return
-            if "render_object_edit":
-                content_type_obj = model.admin_manager.select_related("page").get(pk=object_id)
-            else:
-                content_type_obj = model.objects.select_related("page").get(pk=object_id)
-        else:
+        try:
+            view_func, args, kwargs = resolve(self.request.path)
+        except Resolver404:
             content_type_obj = PageContent.objects.get(page=self.request.current_page, language=language)
+        else:
+            if view_func.__name__ in ("render_object_edit", "render_object_preview") and len(args) == 2:
+                content_type_id, object_id = args
+                content_type = ContentType.objects.get_for_id(content_type_id)
+                model = content_type.model_class()
+                if not issubclass(model, PageContent):
+                    return
+                if "render_object_edit":
+                    content_type_obj = model.admin_manager.select_related("page").get(pk=object_id)
+                else:
+                    content_type_obj = model.objects.select_related("page").get(pk=object_id)
+            else:
+                content_type_obj = PageContent.objects.get(page=self.request.current_page, language=language)
         self.toolbar.set_object(content_type_obj)
 
     def post_template_populate(self):
