@@ -1,0 +1,14 @@
+{% load apphooks_config_tags %}
+{% regroup dates by date.year as years %}
+<select name="aldryn_newsblog_year"
+    data-list_url="{% namespace_url "article-list" %}"
+    data-value_url="{% namespace_url 'article-list-by-year' year=2000 namespace=instance.app_config.namespace %}"
+    data-join_url="{% namespace_url "article-list-by-year-and-category" 2000 "__CATEGORY__" namespace=instance.app_config.namespace %}"
+    data-placeholder="2000"
+    data-join_name="aldryn_newsblog_category"
+    data-pattern="[0-9]{4}">
+    <option></option>
+    {% for year in years %}
+        <option value="{{ year.grouper }}">{{ year.grouper }}</option>
+    {% endfor %}
+</select>

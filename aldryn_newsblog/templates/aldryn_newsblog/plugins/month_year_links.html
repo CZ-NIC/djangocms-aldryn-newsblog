@@ -1,0 +1,13 @@
+{% load i18n apphooks_config_tags %}
+
+{% regroup dates by date.year as years %}
+{% with current_year=year current_month=month %}
+<div class="aldryn-newsblog-month-year-links">
+    {% for year in years %}
+        {% for month in year.list %}
+            <a href="{% namespace_url 'article-list-by-month' year=year.grouper month=month.date|date:"n" namespace=instance.app_config.namespace default='' %}"
+                data-year="{{ year.grouper }}">{{ month.date|date:"F Y"|title }}</a>
+        {% endfor %}
+    {% endfor %}
+</div>
+{% endwith %}

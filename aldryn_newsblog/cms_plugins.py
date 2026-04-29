@@ -230,3 +230,22 @@ class NewsBlogSerialEpisodesPlugin(AdjustableCacheMixin, NewsBlogPlugin):
         if article is not None and article.serial is not None:
             context['serial_episodes'] = article.serial.article_set.exclude(pk=article.pk).order_by('episode')
         return context
+
+
+@plugin_pool.register_plugin
+class SelectCategoriesPlugin(NewsBlogCategoriesPlugin):
+
+    render_template = "aldryn_newsblog/plugins/select_categories.html"
+    name = _('Select Categories')
+
+
+@plugin_pool.register_plugin
+class SelectYearPlugin(NewsBlogArchivePlugin):
+    render_template = 'aldryn_newsblog/plugins/select_year.html'
+    name = _('Select year')
+
+
+@plugin_pool.register_plugin
+class MonthYearLinksPlugin(NewsBlogArchivePlugin):
+    render_template = 'aldryn_newsblog/plugins/month_year_links.html'
+    name = _('Link for the period month and year')
