@@ -5,6 +5,7 @@ from operator import attrgetter
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.utils.timezone import now
+from django.utils.translation import get_language_from_request
 
 from aldryn_apphooks_config.managers.base import ManagerMixin, QuerySetMixin
 from aldryn_people.models import Person
@@ -58,7 +59,8 @@ class RelatedManager(ManagerMixin, TranslatableManager):
             articles = self.namespace(namespace)
         else:
             articles = self.published().namespace(namespace)
-        dates = articles.values_list('publishing_date', flat=True)
+        language = get_language_from_request(request)
+        dates = articles.values_list('publishing_date', flat=True).filter(translations__language_code=language)
         dates = [(x.year, x.month) for x in dates]
         date_counter = Counter(dates)
         dates = set(dates)

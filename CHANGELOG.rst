@@ -4,6 +4,7 @@ Changelog
 Unreleased
 ==========
 
+* Fix RelatedManager.get_months to filter current language.
 * Add view YearCategoryArticleList.
 * Enable edit PageContent.
 * Fix get Category in CategoryArticleList.get.
