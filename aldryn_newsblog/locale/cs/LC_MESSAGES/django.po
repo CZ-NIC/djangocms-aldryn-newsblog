@@ -284,6 +284,9 @@ msgstr "Díly seriálu"
 msgid "Tags"
 msgstr "Značky"
 
+msgid "Text of the first empty item"
+msgstr "Text první prázdné položky"
+
 msgid ""
 "The lead gives the reader the main idea of the story, this is useful in "
 "overviews, lists or as an introduction to your article."

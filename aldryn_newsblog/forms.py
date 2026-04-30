@@ -64,3 +64,15 @@ class NewsBlogTagsPluginForm(AutoAppConfigFormMixin, forms.ModelForm):
 class NewsBlogRelatedPluginForm(forms.ModelForm):
     class Meta:
         fields = ['cache_duration']
+
+
+class SelectCategoriesForm(AutoAppConfigFormMixin, forms.ModelForm):
+    class Meta:
+        model = models.SelectCategories
+        fields = ['app_config', 'label', 'first_option_text']
+
+
+class SelectYearForm(AutoAppConfigFormMixin, forms.ModelForm):
+    class Meta:
+        model = models.SelectYear
+        fields = ['app_config', 'cache_duration', 'label', 'first_option_text']

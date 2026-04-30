@@ -1,13 +1,18 @@
 {% load apphooks_config_tags %}
-<select name="aldryn_newsblog_category"
-    data-list_url="{% namespace_url "article-list" %}"
-    data-value_url="{% namespace_url "article-list-by-category" "__CATEGORY__" namespace=instance.app_config.namespace %}"
-    data-join_url="{% namespace_url "article-list-by-year-and-category" 2000 "__CATEGORY__" namespace=instance.app_config.namespace %}"
-    data-placeholder="__CATEGORY__"
-    data-join_name="aldryn_newsblog_year"
-    data-pattern=".+">
-    <option></option>
-    {% for category in categories %}
-        <option value="{{ category.slug }}">{{ category.name }}</option>
-    {% endfor %}
-</select>
+<div class="frame-aldryn_newsblog_category">
+    {% if instance.label %}
+        <label for="id-aldryn_newsblog_category">{{ instance.label }}</label>
+    {% endif %}
+    <select id="id-aldryn_newsblog_category" name="aldryn_newsblog_category"
+        data-list_url="{% namespace_url "article-list" namespace=instance.app_config.namespace %}"
+        data-value_url="{% namespace_url "article-list-by-category" "__CATEGORY__" namespace=instance.app_config.namespace %}"
+        data-join_url="{% namespace_url "article-list-by-year-and-category" 2000 "__CATEGORY__" namespace=instance.app_config.namespace %}"
+        data-placeholder="__CATEGORY__"
+        data-join_name="aldryn_newsblog_year"
+        data-pattern=".+">
+        <option value="">{{ instance.first_option_text|default_if_none:"" }}</option>
+        {% for category in categories %}
+            <option value="{{ category.slug }}">{{ category.name }}</option>
+        {% endfor %}
+    </select>
+</div>

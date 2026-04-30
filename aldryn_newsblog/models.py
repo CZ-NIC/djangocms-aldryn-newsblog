@@ -334,6 +334,12 @@ class NewsBlogArchivePlugin(PluginEditModeMixin, AdjustableCacheModelMixin,
         return gettext('%s archive') % (self.app_config.get_app_title(), )
 
 
+class SelectYear(NewsBlogArchivePlugin):
+
+    label = models.CharField(_("Label"), max_length=255, blank=True, null=True)
+    first_option_text = models.CharField(_("Text of the first empty item"), max_length=255, blank=True, null=True)
+
+
 class NewsBlogArticleSearchPlugin(NewsBlogCMSPlugin):
     max_articles = models.PositiveIntegerField(
         _('max articles'), default=10,
@@ -424,6 +430,12 @@ class NewsBlogCategoriesPlugin(PluginEditModeMixin, NewsBlogCMSPlugin):
         categories = [
             category for category in raw_categories if category.article_count]
         return sorted(categories, key=lambda x: x.article_count, reverse=True)
+
+
+class SelectCategories(NewsBlogCategoriesPlugin):
+
+    label = models.CharField(_("Label"), max_length=255, blank=True, null=True)
+    first_option_text = models.CharField(_("Text of the first empty item"), max_length=255, blank=True, null=True)
 
 
 class NewsBlogFeaturedArticlesPlugin(PluginEditModeMixin, NewsBlogCMSPlugin):
