@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Aldryn News & Blog\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-09 11:16+0200\n"
+"POT-Creation-Date: 2026-04-30 12:29+0200\n"
 "PO-Revision-Date: 2019-02-20 17:45+0000\n"
 "Last-Translator: evildmp <daniele@vurt.org>\n"
 "Language-Team: Czech (http://www.transifex.com/divio/aldryn-newsblog/"
@@ -171,6 +171,9 @@ msgstr "Klíčové slovo"
 msgid "Keyword search"
 msgstr "Hledání dle klíčových slov"
 
+msgid "Label"
+msgstr "Označení"
+
 msgid "Latest Articles"
 msgstr "Nejnovější články"
 
@@ -283,6 +286,9 @@ msgstr "Díly seriálu"
 
 msgid "Tags"
 msgstr "Značky"
+
+msgid "Text of the first empty item"
+msgstr "Text první prázdné položky"
 
 msgid ""
 "The lead gives the reader the main idea of the story, this is useful in "

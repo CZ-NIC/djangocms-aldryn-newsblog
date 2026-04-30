@@ -1,4 +1,5 @@
 export const hideMonthYearLinks = (query) => {
+    console.log("hideMonthYearLinks query:", query)
     for (const plugin of document.querySelectorAll('.aldryn-newsblog-month-year-links')) {
         const years = new Set()
         for (const article of document.querySelectorAll(query)) {

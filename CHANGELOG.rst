@@ -4,6 +4,11 @@ Changelog
 Unreleased
 ==========
 
+4.2.0 (2026-04-30)
+==================
+
+* Add fields Label and First option text into plugins SelectCategoriesPlugin, SelectYearPlugin.
+
 4.1.0 (2026-04-29)
 ==================
 

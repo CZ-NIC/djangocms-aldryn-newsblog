@@ -235,12 +235,17 @@ class NewsBlogSerialEpisodesPlugin(AdjustableCacheMixin, NewsBlogPlugin):
 @plugin_pool.register_plugin
 class SelectCategoriesPlugin(NewsBlogCategoriesPlugin):
 
+    model = models.SelectCategories
+    form = forms.SelectCategoriesForm
     render_template = "aldryn_newsblog/plugins/select_categories.html"
     name = _('Select Categories')
 
 
 @plugin_pool.register_plugin
 class SelectYearPlugin(NewsBlogArchivePlugin):
+
+    model = models.SelectYear
+    form = forms.SelectYearForm
     render_template = 'aldryn_newsblog/plugins/select_year.html'
     name = _('Select year')
 

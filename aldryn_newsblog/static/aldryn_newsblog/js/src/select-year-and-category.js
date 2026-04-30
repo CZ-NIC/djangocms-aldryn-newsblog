@@ -6,15 +6,19 @@ const initSelection = (select) => {
     if (match) {
         select.value = match[1]
     } else {
-        const join_select = document.querySelector(`select[name="${select.dataset.join_name}"]`)
         path = select.dataset.join_url.replace(
             new RegExp(`/${select.dataset.placeholder}/`), `/(?<value>${select.dataset.pattern})/`)
-        path = path.replace(
-            new RegExp(`/${join_select.dataset.placeholder}/`), `/(?<join>${join_select.dataset.pattern})/`)
+        const join_select = document.querySelector(`select[name="${select.dataset.join_name}"]`)
+        if (join_select) {
+            path = path.replace(
+                new RegExp(`/${join_select.dataset.placeholder}/`), `/(?<join>${join_select.dataset.pattern})/`)
+        }
         match = window.location.href.match(path)
         if (match) {
             select.value = match.groups.value
-            join_select.value = match.groups.join
+            if (join_select) {
+                join_select.value = match.groups.join
+            }
         }
     }
 }
