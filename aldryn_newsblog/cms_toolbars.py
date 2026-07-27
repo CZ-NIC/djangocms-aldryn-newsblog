@@ -97,7 +97,7 @@ class NewsBlogToolbar(CMSToolbar):
                 model = content_type.model_class()
                 if not issubclass(model, PageContent):
                     return
-                if "render_object_edit":
+                if view_func.__name__ == "render_object_edit":
                     content_type_obj = model.admin_manager.select_related("page").get(pk=object_id)
                 else:
                     content_type_obj = model.objects.select_related("page").get(pk=object_id)
