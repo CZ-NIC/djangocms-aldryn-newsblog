@@ -4,6 +4,11 @@ Changelog
 Unreleased
 ==========
 
+4.2.1 (2027-07-28)
+==================
+
+* Fix resolve page for current language in NewsBlogToolbar.enable_edit_page_content.
+
 4.2.0 (2026-04-30)
 ==================
 
