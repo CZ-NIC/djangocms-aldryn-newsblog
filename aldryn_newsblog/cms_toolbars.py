@@ -79,10 +79,11 @@ class NewsBlogToolbar(CMSToolbar):
                     redirect_url = self.get_on_delete_redirect_url(obj, language=language)
                     url = get_admin_url('aldryn_newsblog_article_delete', [obj.pk])
                     menu.add_modal_item(_('Delete this article'), url=url, on_close=redirect_url)
-        try:
-            self.enable_edit_page_content(language)
-        except (ContentType.DoesNotExist, PageContent.DoesNotExist):
-            pass
+        with override(language):
+            try:
+                self.enable_edit_page_content(language)
+            except (ContentType.DoesNotExist, PageContent.DoesNotExist):
+                pass
 
     def enable_edit_page_content(self, language: str) -> None:
         """Enable edit PageContent."""
