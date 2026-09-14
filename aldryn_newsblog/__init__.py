@@ -1,4 +1,4 @@
-__version__ = '4.2.1'
+__version__ = '4.2.2'
 
 
 default_app_config = 'aldryn_newsblog.apps.AldrynNewsBlog'
