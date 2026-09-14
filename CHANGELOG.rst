@@ -4,7 +4,13 @@ Changelog
 Unreleased
 ==========
 
-4.2.1 (2027-07-28)
+4.2.2 (2026-09-14)
+==================
+
+* Use PlaceholderRelationField instead of PlaceholderField.
+* Remove FrontendEditableAdminMixin, PlaceholderAdmin from admin.
+
+4.2.1 (2026-07-28)
 ==================
 
 * Fix resolve page for current language in NewsBlogToolbar.enable_edit_page_content.
