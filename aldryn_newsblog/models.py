@@ -175,6 +175,8 @@ class Article(TranslatedAutoSlugifyMixin,
 
     class Meta:
         ordering = ['-publishing_date']
+        verbose_name = _("Article")
+        verbose_name_plural = _("Articles")
 
     @property
     def published(self):

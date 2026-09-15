@@ -71,11 +71,23 @@ msgstr "Apphook konfigurace"
 msgid "Archive"
 msgstr "Archív"
 
+msgid "Article"
+msgstr "Článek"
+
+msgid "Article + related articles"
+msgstr "Článek + související články"
+
 msgid "Article Search"
 msgstr "Vyhledávání v archívu"
 
 msgid "Article list"
 msgstr "Seznam článků"
+
+msgid "Articles"
+msgstr "Články"
+
+msgid "Articles + related articles"
+msgstr "Články + související články"
 
 #, python-format
 msgid "Articles on %(site_name)s"

@@ -4,6 +4,11 @@ Changelog
 Unreleased
 ==========
 
+4.3.0 (2026-??-??)
+==================
+
+* Edit related articles separately.
+
 4.2.2 (2026-09-14)
 ==================
 

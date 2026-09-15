@@ -145,7 +145,7 @@ class ArticleAdmin(
             'fields': (
                 'tags',
                 'categories',
-                'related',
+                # 'related',  # Enable in ArticleWithRelatedAdmin
                 'owner',
                 'app_config',
             )
@@ -184,6 +184,74 @@ class ArticleAdmin(
         return super().get_view_on_site_url(obj)
 
 
+class ArticleWithRelated(models.Article):
+    class Meta:
+        proxy = True
+        verbose_name = _("Article + related articles")
+        verbose_name_plural = _("Articles + related articles")
+
+
+class ArticleWithRelatedAdmin(ArticleAdmin):
+    fieldsets = (
+        (None, {
+            'fields': (
+                'title',
+                'author',
+                'publishing_date',
+                'is_published',
+                'is_featured',
+                'featured_image',
+                'lead_in',
+            )
+        }),
+        (_('Related articles'), {
+            'fields': [
+                'related',
+            ]
+        }),
+        (_('Serial Options'), {
+            'classes': ('collapse',),
+            'fields': (
+                'serial',
+                'episode',
+            )
+        }),
+        (_('Meta Options'), {
+            'classes': ('collapse',),
+            'fields': (
+                'slug',
+                'meta_title',
+                'meta_description',
+                'meta_keywords',
+            )
+        }),
+        (_('Advanced Settings'), {
+            'classes': ('collapse',),
+            'fields': [
+                'tags',
+                'categories',
+                'owner',
+                'app_config',
+            ]
+        }),
+    )
+
+    def has_view_permission(self, request, obj=None):
+        return request.user.has_perm("aldryn_newsblog.view_article")
+
+    def has_add_permission(self, request):
+        return request.user.has_perm("aldryn_newsblog.add_article")
+
+    def has_change_permission(self, request, obj=None):
+        return request.user.has_perm("aldryn_newsblog.change_article")
+
+    def has_delete_permission(self, request, obj=None):
+        return request.user.has_perm("aldryn_newsblog.delete_article")
+
+    def has_module_permission(self, request):
+        return request.user.has_perm("aldryn_newsblog.view_article")
+
+
 class SerialAdmin(admin.ModelAdmin):
     list_display = ('name', 'episodes_count')
     change_form_template = "aldryn_newsblog/admin/serial_episodes_change_form.html"
@@ -200,6 +268,7 @@ class SerialAdmin(admin.ModelAdmin):
 
 
 admin.site.register(models.Article, ArticleAdmin)
+admin.site.register(ArticleWithRelated, ArticleWithRelatedAdmin)
 admin.site.register(models.Serial, SerialAdmin)
 
 
