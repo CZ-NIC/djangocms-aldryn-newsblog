@@ -1,5 +1,6 @@
 from typing import Optional
 
+from django.conf import settings
 from django.contrib import admin
 from django.urls.exceptions import NoReverseMatch
 from django.utils.translation import gettext_lazy as _
@@ -83,7 +84,8 @@ class ArticleAdminForm(TranslatableModelForm):
             qs = qs.exclude(pk=self.instance.pk)
 
         if 'related' in self.fields:
-            self.fields['related'].queryset = qs
+            self.fields['related'].queryset = \
+                qs.none() if getattr(settings, "ALDRYN_NEWSBLOG_RELATED_JSFETCH", False) else qs
 
         # Don't allow app_configs to be added here. The correct way to add an
         # apphook-config is to create an apphook on a cms Page.
