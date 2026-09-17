@@ -37,7 +37,8 @@ urlpatterns = [
     re_path(r'^year/(?P<year>\d{4})/category/(?P<category>\w[-\w]*)/$', YearCategoryArticleList.as_view(),
             name='article-list-by-year-and-category'),
 
-    path("related-articles/<slug:config>/<article_id:article_id>/", RelatedArticles.as_view(), name='related-articles'),
+    path("related-articles/<slug:config>/<article_id:article_id>/", RelatedArticles.as_view(),
+         name='related-articles'),
 
     # Various permalink styles that we support
     # ----------------------------------------
