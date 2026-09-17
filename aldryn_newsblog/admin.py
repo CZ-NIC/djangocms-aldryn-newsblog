@@ -92,8 +92,9 @@ class ArticleAdminForm(TranslatableModelForm):
             qs = qs.exclude(pk=self.instance.pk)
 
         if 'related' in self.fields:
-            self.fields['related'].queryset = \
-                qs.none() if getattr(settings, "ALDRYN_NEWSBLOG_FETCH_RELATED_ARTICLES", False) else qs
+            self.fields['related'].queryset = qs
+            if getattr(settings, "ALDRYN_NEWSBLOG_FETCH_RELATED_ARTICLES", False):
+                self.fields['related'].queryset = self.instance.related.all() if self.instance.pk else qs.none()
 
         # Don't allow app_configs to be added here. The correct way to add an
         # apphook-config is to create an apphook on a cms Page.
