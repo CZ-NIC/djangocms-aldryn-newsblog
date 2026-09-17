@@ -30,6 +30,8 @@ const fetchRelatedArticles = () => {
     if (!(node && related_arricles)) {
         return
     }
+    const buttons = document.querySelectorAll("#article_form input[type=submit]")
+    buttons.forEach((btn, i) => {btn.disabled = true})
     fetch(node.dataset.endpoint, {
             method: 'GET',
             headers: {
@@ -48,7 +50,7 @@ const fetchRelatedArticles = () => {
                 console.error('Fetch error:', error)
             })
             .finally(() => {
-                console.log("Finally fetch.")
+                buttons.forEach((btn, i) => {btn.disabled = false})
             })
 }
 
