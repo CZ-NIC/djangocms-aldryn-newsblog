@@ -10,7 +10,6 @@ const addArticlesintoForm = (data) => {
         const input = document.createElement("input")
         label.appendChild(input)
         input.type = "checkbox"
-        input.name = "related"
         input.value = item[0]
         input.id = `id_related_${i}`
         input.classList.add("sortedm2m")

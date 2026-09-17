@@ -453,6 +453,6 @@ class RelatedArticles(View):
             app_config = article.app_config
         qs = Article.objects.values_list('pk', 'translations__title').filter(app_config=app_config)
         if article_id != "add":
-            qs = qs.exclude(pk=article.pk)
+            qs = qs.exclude(pk__in=(article.pk, ) + tuple(article.related.values_list('pk', flat=True)))
         data["articles"] = tuple(qs)
         return JsonResponse(data)
