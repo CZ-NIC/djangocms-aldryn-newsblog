@@ -93,7 +93,7 @@ class ArticleAdminForm(TranslatableModelForm):
 
         if 'related' in self.fields:
             self.fields['related'].queryset = qs
-            if getattr(settings, "ALDRYN_NEWSBLOG_FETCH_RELATED_ARTICLES", False):
+            if self.request.method != "POST" and getattr(settings, "ALDRYN_NEWSBLOG_FETCH_RELATED_ARTICLES", False):
                 self.fields['related'].queryset = self.instance.related.all() if self.instance.pk else qs.none()
 
         # Don't allow app_configs to be added here. The correct way to add an
@@ -193,6 +193,11 @@ class ArticleAdmin(
                 # 'aldryn_newsblog_default' is not a registered namespace
                 return None
         return super().get_view_on_site_url(obj)
+
+    def get_form(self, request, obj=None, change=False, **kwargs):
+        form_class = super().get_form(request, obj=obj, change=change, **kwargs)
+        form_class.request = request
+        return form_class
 
     def render_change_form(self, request, context, *args, **kwargs):
         if getattr(settings, "ALDRYN_NEWSBLOG_FETCH_RELATED_ARTICLES", False):

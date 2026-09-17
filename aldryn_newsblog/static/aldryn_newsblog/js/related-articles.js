@@ -17,6 +17,10 @@ const addArticlesintoForm = (data) => {
         label.appendChild(document.createTextNode(" "))
         label.appendChild(document.createTextNode(item[1]))
     })
+    const hidden = document.querySelector(".field-related input[type=hidden]")
+    if (hidden) {
+        hidden.name = "related"
+    }
 }
 
 
