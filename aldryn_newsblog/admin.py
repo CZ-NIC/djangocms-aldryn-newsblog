@@ -194,15 +194,16 @@ class ArticleAdmin(
         return super().get_view_on_site_url(obj)
 
     def render_change_form(self, request, context, *args, **kwargs):
-        article = context.get("original")
-        app_namespace = context["adminform"].form.app_namespace
-        article_id = "add" if article is None else article.pk
-        if app_namespace is not None:
-            try:
-                context["related_articles_endpoint"] = reverse(f'{app_namespace}:related-articles', kwargs={
-                    "config": app_namespace, "article_id": article_id})
-            except NoReverseMatch:
-                pass
+        if getattr(settings, "ALDRYN_NEWSBLOG_FETCH_RELATED_ARTICLES", False):
+            article = context.get("original")
+            app_namespace = context["adminform"].form.app_namespace
+            article_id = "add" if article is None else article.pk
+            if app_namespace is not None:
+                try:
+                    context["related_articles_endpoint"] = reverse(f'{app_namespace}:related-articles', kwargs={
+                        "config": app_namespace, "article_id": article_id})
+                except NoReverseMatch:
+                    pass
         return super().render_change_form(request, context, *args, **kwargs)
 
 

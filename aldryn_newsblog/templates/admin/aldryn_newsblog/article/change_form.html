@@ -2,5 +2,7 @@
 
 {% block content %}
     {{ block.super }}
-    <span id="fetch-related-articles" data-endpoint="{{ related_articles_endpoint }}"></span>
+    {% if related_articles_endpoint %}
+        <span id="fetch-related-articles" data-endpoint="{{ related_articles_endpoint }}"></span>
+    {% endif %}
 {% endblock %}
