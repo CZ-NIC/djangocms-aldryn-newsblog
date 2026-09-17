@@ -438,8 +438,19 @@ class DayArticleList(DateRangeArticleList):
 
 class RelatedArticles(View):
 
+    def has_view_permission(self, request, obj=None):
+        return request.user.has_perm("aldryn_newsblog.view_article") or \
+            request.user.has_perm("aldryn_newsblog.change_article")
+
+    def has_change_permission(self, request, obj=None):
+        return request.user.has_perm("aldryn_newsblog.change_article")
+
+    def has_view_or_change_permission(self, request, obj=None):
+        return self.has_view_permission(request, obj) or self.has_change_permission(request, obj)
+
     def get(self, request, config: str, article_id: str, *args, **kwargs) -> JsonResponse:
         data = {}
+        article = None
         if article_id == "add":
             try:
                 app_config = NewsBlogConfig.objects.get(namespace=config)
@@ -451,6 +462,10 @@ class RelatedArticles(View):
             except Article.DoesNotExist:
                 return JsonResponse(data, status=404)
             app_config = article.app_config
+
+        if not self.has_view_or_change_permission(request, article):
+            return JsonResponse(data, status=403)
+
         qs = Article.objects.values_list('pk', 'translations__title').filter(app_config=app_config)
         if article_id != "add":
             qs = qs.exclude(pk__in=(article.pk, ) + tuple(article.related.values_list('pk', flat=True)))
