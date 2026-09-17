@@ -18,6 +18,7 @@ from dateutil.relativedelta import relativedelta
 from parler.views import TranslatableSlugMixin, ViewUrlMixin
 from taggit.models import Tag
 
+from aldryn_newsblog.cms_appconfig import NewsBlogConfig
 from aldryn_newsblog.compat import toolbar_edit_mode_active
 from aldryn_newsblog.utils.utilities import get_valid_languages_from_request
 
@@ -437,14 +438,20 @@ class DayArticleList(DateRangeArticleList):
 
 class RelatedArticles(View):
 
-    def get(self, request, article_id: str, *args, **kwargs) -> JsonResponse:
+    def get(self, request, config: str, article_id: str, *args, **kwargs) -> JsonResponse:
         data = {}
-        try:
-            article = Article.objects.get(pk=article_id)
-        except Article.DoesNotExist:
-            return JsonResponse(data, status=404)
-        print("article.app_config_id:", article.app_config_id)
-        qs = Article.objects.values_list('pk', 'translations__title').filter(app_config=article.app_config)
+        if article_id == "add":
+            try:
+                app_config = NewsBlogConfig.objects.get(namespace=config)
+            except NewsBlogConfig.DoesNotExist:
+                return JsonResponse(data, status=404)
+        else:
+            try:
+                article = Article.objects.get(pk=article_id)
+            except Article.DoesNotExist:
+                return JsonResponse(data, status=404)
+            app_config = article.app_config
+        qs = Article.objects.values_list('pk', 'translations__title').filter(app_config=app_config)
         if article_id != "add":
             qs = qs.exclude(pk=article.pk)
         data["articles"] = tuple(qs)

@@ -200,7 +200,7 @@ class ArticleAdmin(
         if app_namespace is not None:
             try:
                 context["related_articles_endpoint"] = reverse(f'{app_namespace}:related-articles', kwargs={
-                    "article_id": article_id})
+                    "config": app_namespace, "article_id": article_id})
             except NoReverseMatch:
                 pass
         return super().render_change_form(request, context, *args, **kwargs)
