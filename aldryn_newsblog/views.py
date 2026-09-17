@@ -2,11 +2,11 @@ from datetime import date, datetime
 
 from django.db.models import Q
 from django.http import (
-    Http404, HttpResponsePermanentRedirect, HttpResponseRedirect,
+    Http404, HttpResponsePermanentRedirect, HttpResponseRedirect, JsonResponse,
 )
 from django.shortcuts import get_object_or_404
 from django.utils import timezone, translation
-from django.views.generic import ListView
+from django.views.generic import ListView, View
 from django.views.generic.detail import DetailView
 
 from menus.utils import set_language_changer
@@ -433,3 +433,19 @@ class DayArticleList(DateRangeArticleList):
             int(kwargs['year']), int(kwargs['month']), int(kwargs['day'])), timezone.get_default_timezone())
         date_to = date_from + relativedelta(days=1)
         return date_from, date_to
+
+
+class RelatedArticles(View):
+
+    def get(self, request, article_id: str, *args, **kwargs) -> JsonResponse:
+        data = {}
+        try:
+            article = Article.objects.get(pk=article_id)
+        except Article.DoesNotExist:
+            return JsonResponse(data, status=404)
+        print("article.app_config_id:", article.app_config_id)
+        qs = Article.objects.values_list('pk', 'translations__title').filter(app_config=article.app_config)
+        if article_id != "add":
+            qs = qs.exclude(pk=article.pk)
+        data["articles"] = tuple(qs)
+        return JsonResponse(data)

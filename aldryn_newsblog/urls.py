@@ -1,12 +1,19 @@
-from django.urls import path, re_path
+from django.urls import path, re_path, register_converter
+from django.urls.converters import StringConverter
 
 from aldryn_newsblog.feeds import CategoryFeed, LatestArticlesFeed, TagFeed
 from aldryn_newsblog.views import (
     ArticleDetail, ArticleList, ArticleSearchResultsList, AuthorArticleList,
-    CategoryArticleList, DayArticleList, MonthArticleList, TagArticleList,
-    YearArticleList, YearCategoryArticleList,
+    CategoryArticleList, DayArticleList, MonthArticleList, RelatedArticles,
+    TagArticleList, YearArticleList, YearCategoryArticleList,
 )
 
+
+class ArticleIdConverter(StringConverter):
+    regex = "([0-9]+|add)"
+
+
+register_converter(ArticleIdConverter, "article_id")
 
 urlpatterns = [
     path('', ArticleList.as_view(), name='article-list'),
@@ -29,6 +36,8 @@ urlpatterns = [
     re_path(r'^(?P<year>\d{4})/$', YearArticleList.as_view(), name='article-list-by-year'),
     re_path(r'^year/(?P<year>\d{4})/category/(?P<category>\w[-\w]*)/$', YearCategoryArticleList.as_view(),
             name='article-list-by-year-and-category'),
+
+    path("related-articles/<article_id:article_id>/", RelatedArticles.as_view(), name='related-articles'),
 
     # Various permalink styles that we support
     # ----------------------------------------

@@ -2,7 +2,7 @@ from typing import Optional
 
 from django.conf import settings
 from django.contrib import admin
-from django.urls.exceptions import NoReverseMatch
+from django.urls import NoReverseMatch, reverse
 from django.utils.translation import gettext_lazy as _
 
 from aldryn_apphooks_config.admin import BaseAppHookConfig, ModelAppHookConfig
@@ -10,6 +10,8 @@ from aldryn_people.models import Person
 from aldryn_translation_tools.admin import AllTranslationsMixin
 from parler.admin import TranslatableAdmin
 from parler.forms import TranslatableModelForm
+
+from aldryn_newsblog.cms_appconfig import NewsBlogConfig
 
 from . import models
 
@@ -69,14 +71,20 @@ class ArticleAdminForm(TranslatableModelForm):
             'episode',
         ]
 
+    class Media:
+        js = ['aldryn_newsblog/js/related-articles.js']
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+        self.app_namespace = None
         qs = models.Article.objects
         if self.instance.app_config_id:
+            self.app_namespace = self.instance.app_config.namespace
             qs = models.Article.objects.filter(
                 app_config=self.instance.app_config)
         elif 'initial' in kwargs and 'app_config' in kwargs['initial']:
+            self.app_namespace = NewsBlogConfig.objects.get(pk=kwargs['initial']['app_config']).namespace
             qs = models.Article.objects.filter(
                 app_config=kwargs['initial']['app_config'])
 
@@ -85,7 +93,7 @@ class ArticleAdminForm(TranslatableModelForm):
 
         if 'related' in self.fields:
             self.fields['related'].queryset = \
-                qs.none() if getattr(settings, "ALDRYN_NEWSBLOG_RELATED_JSFETCH", False) else qs
+                qs.none() if getattr(settings, "ALDRYN_NEWSBLOG_FETCH_RELATED_ARTICLES", False) else qs
 
         # Don't allow app_configs to be added here. The correct way to add an
         # apphook-config is to create an apphook on a cms Page.
@@ -184,6 +192,18 @@ class ArticleAdmin(
                 # 'aldryn_newsblog_default' is not a registered namespace
                 return None
         return super().get_view_on_site_url(obj)
+
+    def render_change_form(self, request, context, *args, **kwargs):
+        article = context.get("original")
+        app_namespace = context["adminform"].form.app_namespace
+        article_id = "add" if article is None else article.pk
+        if app_namespace is not None:
+            try:
+                context["related_articles_endpoint"] = reverse(f'{app_namespace}:related-articles', kwargs={
+                    "article_id": article_id})
+            except NoReverseMatch:
+                pass
+        return super().render_change_form(request, context, *args, **kwargs)
 
 
 class SerialAdmin(admin.ModelAdmin):
