@@ -7,6 +7,7 @@ from aldryn_newsblog.views import (
     TagArticleList, YearArticleList, YearCategoryArticleList,
 )
 
+
 urlpatterns = [
     path('', ArticleList.as_view(), name='article-list'),
 
