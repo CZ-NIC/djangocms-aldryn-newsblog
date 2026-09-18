@@ -3,8 +3,8 @@ from django.urls import path, re_path
 from aldryn_newsblog.feeds import CategoryFeed, LatestArticlesFeed, TagFeed
 from aldryn_newsblog.views import (
     ArticleDetail, ArticleList, ArticleSearchResultsList, AuthorArticleList,
-    CategoryArticleList, DayArticleList, MonthArticleList, TagArticleList,
-    YearArticleList, YearCategoryArticleList,
+    CategoryArticleList, DayArticleList, MonthArticleList, RelatedArticles,
+    TagArticleList, YearArticleList, YearCategoryArticleList,
 )
 
 
@@ -29,6 +29,9 @@ urlpatterns = [
     re_path(r'^(?P<year>\d{4})/$', YearArticleList.as_view(), name='article-list-by-year'),
     re_path(r'^year/(?P<year>\d{4})/category/(?P<category>\w[-\w]*)/$', YearCategoryArticleList.as_view(),
             name='article-list-by-year-and-category'),
+
+    path("related-articles/add/<slug:config>/", RelatedArticles.as_view(), name='related_articles_add'),
+    path("related-articles/<int:article_id>/", RelatedArticles.as_view(), name='related_articles_change'),
 
     # Various permalink styles that we support
     # ----------------------------------------

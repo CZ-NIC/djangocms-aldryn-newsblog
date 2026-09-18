@@ -2,11 +2,11 @@ from datetime import date, datetime
 
 from django.db.models import Q
 from django.http import (
-    Http404, HttpResponsePermanentRedirect, HttpResponseRedirect,
+    Http404, HttpResponsePermanentRedirect, HttpResponseRedirect, JsonResponse,
 )
 from django.shortcuts import get_object_or_404
 from django.utils import timezone, translation
-from django.views.generic import ListView
+from django.views.generic import ListView, View
 from django.views.generic.detail import DetailView
 
 from menus.utils import set_language_changer
@@ -18,6 +18,7 @@ from dateutil.relativedelta import relativedelta
 from parler.views import TranslatableSlugMixin, ViewUrlMixin
 from taggit.models import Tag
 
+from aldryn_newsblog.cms_appconfig import NewsBlogConfig
 from aldryn_newsblog.compat import toolbar_edit_mode_active
 from aldryn_newsblog.utils.utilities import get_valid_languages_from_request
 
@@ -433,3 +434,41 @@ class DayArticleList(DateRangeArticleList):
             int(kwargs['year']), int(kwargs['month']), int(kwargs['day'])), timezone.get_default_timezone())
         date_to = date_from + relativedelta(days=1)
         return date_from, date_to
+
+
+class RelatedArticles(View):
+
+    def has_view_permission(self, request, obj=None):
+        return request.user.has_perm("aldryn_newsblog.view_article") or \
+            request.user.has_perm("aldryn_newsblog.change_article")
+
+    def has_change_permission(self, request, obj=None):
+        return request.user.has_perm("aldryn_newsblog.change_article")
+
+    def has_view_or_change_permission(self, request, obj=None):
+        return self.has_view_permission(request, obj) or self.has_change_permission(request, obj)
+
+    def get(self, request, *args, **kwargs) -> JsonResponse:
+        data = {}
+        article_id, config = kwargs.get("article_id"), kwargs.get("config")
+        article = None
+        if config is not None:
+            try:
+                app_config = NewsBlogConfig.objects.get(namespace=config)
+            except NewsBlogConfig.DoesNotExist:
+                return JsonResponse(data, status=404)
+        else:
+            try:
+                article = Article.objects.get(pk=article_id)
+            except Article.DoesNotExist:
+                return JsonResponse(data, status=404)
+            app_config = article.app_config
+
+        if not self.has_view_or_change_permission(request, article):
+            return JsonResponse(data, status=403)
+
+        qs = Article.objects.values_list('pk', 'translations__title').filter(app_config=app_config)
+        if article_id is not None:
+            qs = qs.exclude(pk__in=(article.pk, ) + tuple(article.related.values_list('pk', flat=True)))
+        data["articles"] = tuple(qs)
+        return JsonResponse(data)

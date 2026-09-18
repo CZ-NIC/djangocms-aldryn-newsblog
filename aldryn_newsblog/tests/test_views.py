@@ -23,7 +23,7 @@ from parler.utils.context import smart_override, switch_language
 from aldryn_newsblog.models import Article, NewsBlogConfig
 from aldryn_newsblog.search_indexes import ArticleIndex
 
-from .mixins import TESTS_STATIC_ROOT, NewsBlogTestCase
+from .mixins import TESTS_STATIC_ROOT, NewsBlogTestCase, get_article_permission
 
 
 FEATURED_IMAGE_PATH = os.path.join(TESTS_STATIC_ROOT, 'featured_image.jpg')
@@ -614,7 +614,7 @@ class TestIndex(NewsBlogTestCase):
                         self.index.get_description(article_de), 'de lead in')
 
 
-class ViewLanguageFallbackMixin:
+class BaseViewLanguageFallbackMixin:
     view_name = None
     view_kwargs = {}
 
@@ -677,6 +677,9 @@ class ViewLanguageFallbackMixin:
                 article.save()
                 articles.append(article)
         return articles
+
+
+class ViewLanguageFallbackMixin(BaseViewLanguageFallbackMixin):
 
     def test_a0_en_only(self):
         namespace = self.app_config.namespace
@@ -828,3 +831,80 @@ class TagFeedLanguageFallback(ViewLanguageFallbackMixin,
             'tag': 'tag1'
         }
         return kwargs
+
+
+class TestRelatedArticles(BaseViewLanguageFallbackMixin, NewsBlogTestCase):
+
+    language = "en"
+
+    def setUp(self):
+        super().setUp()
+        self.create_authors()
+        self.articles = self._create_articles()
+        self.articles[0].related.add(self.articles[2])
+
+    def _create_article(self, title: str, slug: str) -> None:
+        return self.create_article(author=self.author, owner=self.owner, title=title, slug=slug)
+
+    def _create_articles(self):
+        articles = []
+        for title, slug in (
+            ("First page", "first-page"),
+            ("Second page", "second-page"),
+            ("Third page", "third-page",)
+        ):
+            articles.append(self._create_article(title, slug))
+        return articles
+
+    def _get_path(self, article=None):
+        namespace = self.app_config.namespace
+        if article is None:
+            path = reverse(f'{namespace}:related_articles_add', kwargs={"config": namespace})
+        else:
+            path = reverse(f'{namespace}:related_articles_change', kwargs={"article_id": article.pk})
+        return path
+
+    def test_anonymous_user(self):
+        response = self.client.get(self._get_path())
+        self.assertContains(response, '{}', status_code=403)
+
+    def test_owner_without_permissions(self):
+        self.client.force_login(self.owner)
+        response = self.client.get(self._get_path())
+        self.assertContains(response, '{}', status_code=403)
+
+    def test_unkown_article(self):
+        permission = get_article_permission("change_article")
+        self.owner.user_permissions.add(permission)
+        self.client.force_login(self.owner)
+        response = self.client.get(self._get_path(type('Article', (), {"pk": 1234567890})()))
+        self.assertContains(response, '{}', status_code=404)
+
+    def test_unkown_config(self):
+        permission = get_article_permission("change_article")
+        self.owner.user_permissions.add(permission)
+        self.client.force_login(self.owner)
+        path = reverse(f'{self.app_config.namespace}:related_articles_add', kwargs={"config": "foo"})
+        response = self.client.get(path)
+        self.assertContains(response, '{}', status_code=404)
+
+    def test_owner_with_permission_change(self):
+        permission = get_article_permission("change_article")
+        self.owner.user_permissions.add(permission)
+        self.client.force_login(self.owner)
+        response = self.client.get(self._get_path())
+        self.assertContains(response, b'{"articles": [[3, "Third page"], [2, "Second page"], [1, "First page"]]}')
+
+    def test_owner_with_permission_view(self):
+        permission = get_article_permission("view_article")
+        self.owner.user_permissions.add(permission)
+        self.client.force_login(self.owner)
+        response = self.client.get(self._get_path(self.articles[2]))
+        self.assertContains(response, b'{"articles": [[2, "Second page"], [1, "First page"]]}')
+
+    def test_related_articles(self):
+        permission = get_article_permission("view_article")
+        self.owner.user_permissions.add(permission)
+        self.client.force_login(self.owner)
+        response = self.client.get(self._get_path(self.articles[0]))
+        self.assertContains(response, b'{"articles": [[2, "Second page"]]}')

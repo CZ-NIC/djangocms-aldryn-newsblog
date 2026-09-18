@@ -1,0 +1,8 @@
+{% extends 'admin/change_form.html' %}
+
+{% block content %}
+    {{ block.super }}
+    {% if related_articles_endpoint %}
+        <span id="fetch-related-articles" data-endpoint="{{ related_articles_endpoint }}"></span>
+    {% endif %}
+{% endblock %}
