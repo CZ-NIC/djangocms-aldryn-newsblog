@@ -5,7 +5,8 @@ import sys
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.contrib.auth.models import AnonymousUser, User
+from django.contrib.auth.models import AnonymousUser, Permission, User
+from django.contrib.contenttypes.models import ContentType
 from django.core.cache import cache
 from django.test import RequestFactory
 from django.urls import clear_url_caches
@@ -101,12 +102,16 @@ class NewsBlogTestsMixin:
         except KeyError:
             owner = author.user
 
+        title = kwargs.get("title", self.rand_str())
+        slug = kwargs.get("slug", self.rand_str())
+        app_config = kwargs.get("app_config", self.app_config)
+
         fields = {
-            'title': self.rand_str(),
-            'slug': self.rand_str(),
+            'title': title,
+            'slug': slug,
             'author': author,
             'owner': owner,
-            'app_config': self.app_config,
+            'app_config': app_config,
             'publishing_date': now(),
             'is_published': True,
         }
@@ -354,3 +359,9 @@ class NewsBlogTransactionTestCase(CleanUpMixin,
                                   TransactionCMSTestCase):
     apphook_object = NewsBlogApp
     pass
+
+
+def get_article_permission(codename: str) -> Permission:
+    """Get or create permission."""
+    content_type = ContentType.objects.get_for_model(Article)
+    return Permission.objects.get_or_create(codename=codename, content_type=content_type)[0]
