@@ -24,7 +24,6 @@ const addArticlesintoForm = (data) => {
 
 
 const fetchRelatedArticles = () => {
-    console.log("TODO: Fetch Related Articles.")
     const related_arricles = document.querySelector(".field-related .sortedm2m-items")
     const node = document.getElementById("fetch-related-articles")
     if (!(node && related_arricles)) {
