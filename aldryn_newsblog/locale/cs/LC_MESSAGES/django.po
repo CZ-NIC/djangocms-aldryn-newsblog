@@ -272,6 +272,9 @@ msgstr "Sekce"
 msgid "Select Categories"
 msgstr "Vybrat kategorii"
 
+msgid "Select only the current language version."
+msgstr "Vybrat jen aktuální jazykovou verzi."
+
 msgid "Select year"
 msgstr "Vybrat rok"
 

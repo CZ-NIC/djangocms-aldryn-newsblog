@@ -4,6 +4,11 @@ Changelog
 Unreleased
 ==========
 
+4.4.0 (2026-09-25)
+==================
+
+* Add field select_only_current_language into NewsBlogFeaturedArticlesPlugin, NewsBlogLatestArticlesPlugin, NewsBlogRelatedPlugin.
+
 4.3.0 (2026-09-18)
 ==================
 
