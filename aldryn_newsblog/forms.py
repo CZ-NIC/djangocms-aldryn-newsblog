@@ -43,7 +43,7 @@ class NewsBlogFeaturedArticlesPluginForm(AutoAppConfigFormMixin,
                                          forms.ModelForm):
     class Meta:
         model = models.NewsBlogFeaturedArticlesPlugin
-        fields = ['app_config', 'article_count']
+        fields = ['app_config', 'article_count', 'select_only_current_language']
 
 
 class NewsBlogLatestArticlesPluginForm(AutoAppConfigFormMixin,
@@ -51,7 +51,7 @@ class NewsBlogLatestArticlesPluginForm(AutoAppConfigFormMixin,
     class Meta:
         model = models.NewsBlogLatestArticlesPlugin
         fields = [
-            'app_config', 'latest_articles', 'exclude_featured',
+            'app_config', 'latest_articles', 'exclude_featured', 'select_only_current_language',
             'cache_duration'
         ]
 
@@ -63,7 +63,7 @@ class NewsBlogTagsPluginForm(AutoAppConfigFormMixin, forms.ModelForm):
 
 class NewsBlogRelatedPluginForm(forms.ModelForm):
     class Meta:
-        fields = ['cache_duration']
+        fields = ['select_only_current_language', 'cache_duration']
 
 
 class SelectCategoriesForm(AutoAppConfigFormMixin, forms.ModelForm):

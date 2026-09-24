@@ -444,6 +444,10 @@ class NewsBlogFeaturedArticlesPlugin(PluginEditModeMixin, NewsBlogCMSPlugin):
         validators=[django.core.validators.MinValueValidator(1)],
         help_text=_('The maximum number of featured articles display.')
     )
+    select_only_current_language = models.BooleanField(
+        default=False,
+        help_text=_("Select only the current language version.")
+    )
 
     def get_articles(self, request):
         if not self.article_count:
@@ -455,6 +459,8 @@ class NewsBlogFeaturedArticlesPlugin(PluginEditModeMixin, NewsBlogCMSPlugin):
             self.app_config.namespace, request)
         if self.language not in languages:
             return queryset.none()
+        if self.select_only_current_language:
+            languages = [self.language]
         queryset = queryset.translated(*languages).filter(
             app_config=self.app_config,
             is_featured=True)
@@ -487,6 +493,10 @@ class NewsBlogLatestArticlesPlugin(PluginEditModeMixin,
             'The maximum number of featured articles to exclude from display. '
             'E.g. for uses in combination with featured articles plugin.')
     )
+    select_only_current_language = models.BooleanField(
+        default=False,
+        help_text=_("Select only the current language version.")
+    )
 
     def get_articles(self, request):
         """
@@ -502,6 +512,8 @@ class NewsBlogLatestArticlesPlugin(PluginEditModeMixin,
             self.app_config.namespace, request)
         if self.language not in languages:
             return queryset.none()
+        if self.select_only_current_language:
+            languages = [self.language]
         queryset = queryset.translated(*languages).filter(
             app_config=self.app_config)
         featured_qs = featured_qs.translated(*languages).filter(
@@ -528,6 +540,10 @@ class NewsBlogRelatedPlugin(PluginEditModeMixin, AdjustableCacheModelMixin,
         parent_link=True,
         on_delete=models.CASCADE,
     )
+    select_only_current_language = models.BooleanField(
+        default=False,
+        help_text=_("Select only the current language version.")
+    )
 
     def get_articles(self, article, request):
         """
@@ -537,6 +553,8 @@ class NewsBlogRelatedPlugin(PluginEditModeMixin, AdjustableCacheModelMixin,
             article.app_config.namespace, request)
         if self.language not in languages:
             return Article.objects.none()
+        if self.select_only_current_language:
+            languages = [self.language]
         qs = article.related.translated(*languages)
         if not self.get_edit_mode(request):
             qs = qs.published()

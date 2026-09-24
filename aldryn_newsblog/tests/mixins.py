@@ -88,9 +88,10 @@ class NewsBlogTestsMixin:
         kwargs.setdefault('last_name', cls.rand_str())
         return User.objects.create(**kwargs)
 
-    def create_person(self):
-        return Person.objects.create(
-            user=self.create_user(), slug=self.rand_str())
+    def create_person(self, slug=None):
+        if slug is None:
+            slug = self.rand_str()
+        return Person.objects.create(user=self.create_user(), slug=slug)
 
     def create_article(self, content=None, **kwargs):
         try:
@@ -101,6 +102,7 @@ class NewsBlogTestsMixin:
             owner = kwargs['owner']
         except KeyError:
             owner = author.user
+        language = kwargs.pop("lang", None)
 
         title = kwargs.get("title", self.rand_str())
         slug = kwargs.get("slug", self.rand_str())
@@ -119,6 +121,8 @@ class NewsBlogTestsMixin:
         fields.update(kwargs)
 
         article = Article.objects.create(**fields)
+        if language is not None:
+            article.set_current_language(language)
         # save again to calculate article search_data.
         article.save()
 

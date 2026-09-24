@@ -1,13 +1,18 @@
 import datetime
 import time
 
+from django.contrib.auth import get_user_model
+from django.test.client import RequestFactory
 from django.urls import reverse
 from django.utils.encoding import force_str
 from django.utils.translation import override
 
 from cms import api
+from cms.plugin_rendering import ContentRenderer
 
-from aldryn_newsblog.models import NewsBlogConfig
+from freezegun import freeze_time
+
+from aldryn_newsblog.models import Article, NewsBlogConfig
 
 from .mixins import NewsBlogTestCase
 
@@ -418,3 +423,132 @@ class TestTagsPlugin(TestAppConfigPluginsBase):
         response_content = force_str(response.content)
         self.assertRegex(response_content, r'tag1\s*<span[^>]*>3</span>')  # noqa: #W605
         self.assertRegex(response_content, r'tag2\s*<span[^>]*>5</span>')  # noqa: #W605
+
+
+@freeze_time(datetime.date(2026, 9, 24))
+class TestPluginLanguages(NewsBlogTestCase):
+
+    def setUp(self):
+        super().setUp()
+        self.placeholder = self.plugin_page.get_admin_content(self.language).get_placeholders().first()
+        self.author = self.create_person(slug="admin")
+        self.owner = self.author.user
+        self.admin = get_user_model().objects.create(username="admin", is_staff=True, is_superuser=True)
+        self._create_articles_en()
+        self._create_articles_de()
+
+    def _create_article(self, title: str, slug: str) -> None:
+        return self.create_article(author=self.author, owner=self.owner, title=title, slug=slug)
+
+    def _create_articles_en(self):
+        with override("en"):
+            for title, slug in (
+                ("First page", "first-page"),
+                ("Second page", "second-page"),
+                ("Third page", "third-page",)
+            ):
+                self._create_article(title, slug)
+
+    def _create_articles_de(self):
+        with override("de"):
+            for title, slug in (
+                ("Erste Seite", "erste-seite"),
+                ("Zweite Seite", "zweite-seite"),
+                ("Dritte Seite", "dritte-seite"),
+            ):
+                self._create_article(title, slug)
+
+    def _render_plugin(self, plugin, query=""):
+        request = RequestFactory().get(f"/{query}")
+        request.LANGUAGE_CODE = self.language
+        renderer = ContentRenderer(request=request)
+        return renderer.render_plugin(plugin, {"request": request})
+
+    def test_latest_all_languages(self):
+        plugin = api.add_plugin(
+            self.placeholder, 'NewsBlogLatestArticlesPlugin', self.language, app_config=self.app_config)
+        html = self._render_plugin(plugin)
+        self.assertHTMLEqual(html, """
+            <div class="aldryn-newsblog-latest-articles">
+                <article class="article">
+                    <h2 class="article-title"><a href="/en/page/first-page/">First page</a></h2>
+                    <div class="meta">
+                        <p class="date">Sept. 24, 2026</p>
+                        <p><a href="/en/page/author/admin/"></a></p>
+                        <p class="tags"></p>
+                    </div>
+                    <div class="lead"></div>
+                </article>
+                <article class="article">
+                    <h2 class="article-title"><a href="/en/page/second-page/">Second page</a></h2>
+                    <div class="meta">
+                        <p class="date">Sept. 24, 2026</p>
+                        <p><a href="/en/page/author/admin/"></a></p>
+                        <p class="tags"></p>
+                    </div>
+                    <div class="lead"></div>
+                </article>
+                <article class="article">
+                    <h2 class="article-title"><a href="/en/page/third-page/">Third page</a></h2>
+                    <div class="meta">
+                        <p class="date">Sept. 24, 2026</p>
+                        <p><a href="/en/page/author/admin/"></a></p>
+                        <p class="tags"></p>
+                    </div>
+                    <div class="lead"></div>
+                </article>
+                <article class="article">
+                    <h2 class="article-title"><a href="/en/page/erste-seite/">Erste Seite</a></h2>
+                    <div class="meta">
+                        <p class="date">Sept. 24, 2026</p>
+                        <p><a href="/en/page/author/admin/"></a></p>
+                        <p class="tags"></p>
+                    </div>
+                    <div class="lead"></div>
+                </article>
+                <article class="article">
+                    <h2 class="article-title"><a href="/en/page/zweite-seite/">Zweite Seite</a></h2>
+                    <div class="meta">
+                        <p class="date">Sept. 24, 2026</p>
+                        <p><a href="/en/page/author/admin/"></a></p>
+                        <p class="tags"></p>
+                    </div>
+                    <div class="lead"></div>
+                </article>
+            </div>""")
+
+    def test_latest_only_current_language(self):
+        plugin = api.add_plugin(
+            self.placeholder, 'NewsBlogLatestArticlesPlugin', self.language, app_config=self.app_config,
+            select_only_current_language=True)
+        html = self._render_plugin(plugin)
+        self.assertHTMLEqual(html, """
+            <div class="aldryn-newsblog-latest-articles">
+                <article class="article">
+                    <h2 class="article-title"><a href="/en/page/first-page/">First page</a></h2>
+                    <div class="meta">
+                        <p class="date">Sept. 24, 2026</p>
+                        <p><a href="/en/page/author/admin/"></a></p>
+                        <p class="tags"></p>
+                    </div>
+                    <div class="lead"></div>
+                </article>
+                <article class="article">
+                    <h2 class="article-title"><a href="/en/page/second-page/">Second page</a></h2>
+                    <div class="meta">
+                        <p class="date">Sept. 24, 2026</p>
+                        <p><a href="/en/page/author/admin/"></a></p>
+                        <p class="tags"></p>
+                    </div>
+                    <div class="lead"></div>
+                </article>
+                <article class="article">
+                    <h2 class="article-title"><a href="/en/page/third-page/">Third page</a></h2>
+                    <div class="meta">
+                        <p class="date">Sept. 24, 2026</p>
+                        <p><a href="/en/page/author/admin/"></a></p>
+                        <p class="tags"></p>
+                    </div>
+                    <div class="lead"></div>
+                </article>
+            </div>""")
