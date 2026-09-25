@@ -4,6 +4,7 @@ import time
 from django.contrib.auth import get_user_model
 from django.test.client import RequestFactory
 from django.urls import reverse
+from django.urls.resolvers import ResolverMatch
 from django.utils.encoding import force_str
 from django.utils.translation import override
 
@@ -436,8 +437,9 @@ class TestPluginLanguages(NewsBlogTestCase):
         self.admin = get_user_model().objects.create(username="admin", is_staff=True, is_superuser=True)
         articles_de = self._create_articles_de()
         articles_en = self._create_articles_en()
-        articles_de[0].related.add(articles_de[1])
         articles_en[0].related.add(articles_en[1])
+        articles_en[0].related.add(articles_de[1])
+        self.app_config_namespace = articles_en[0].app_config.namespace
 
     def _create_article(self, title: str, slug: str) -> None:
         return self.create_article(author=self.author, owner=self.owner, title=title, slug=slug, is_featured=True)
@@ -464,9 +466,10 @@ class TestPluginLanguages(NewsBlogTestCase):
                 articles.append(self._create_article(title, slug))
         return articles
 
-    def _render_plugin(self, plugin, query=""):
+    def _render_plugin(self, plugin, query="", resolver_match=None):
         request = RequestFactory().get(f"/{query}")
         request.LANGUAGE_CODE = self.language
+        request.resolver_match = resolver_match
         renderer = ContentRenderer(request=request)
         return renderer.render_plugin(plugin, {"request": request})
 
@@ -595,6 +598,34 @@ class TestPluginLanguages(NewsBlogTestCase):
             </div>""")
 
     def test_related_all_languages(self):
+        resolver_match = ResolverMatch(
+            namespaces=[self.app_config_namespace], kwargs={"slug": "first-page"}, func=None, args=[])
+        resolver_match.view_name = f'{self.app_config_namespace}:article-detail'
         plugin = api.add_plugin(self.placeholder, 'NewsBlogRelatedPlugin', self.language)
-        html = self._render_plugin(plugin)
-        print(html)
+        html = self._render_plugin(plugin, resolver_match=resolver_match)
+        self.assertHTMLEqual(html, """
+            <ul>
+                <li>
+                    <h3><a href="/en/page/second-page/">Second page</a></h3>
+                    <p>by <a href="#">1</a> Sept. 24, 2026</p>
+                </li>
+                <li>
+                    <h3><a href="/de/page/zweite-seite/">Zweite Seite</a></h3>
+                    <p>by <a href="#">1</a> Sept. 24, 2026</p>
+                </li>
+            </ul>""")
+
+    def test_related_only_current_language(self):
+        resolver_match = ResolverMatch(
+            namespaces=[self.app_config_namespace], kwargs={"slug": "first-page"}, func=None, args=[])
+        resolver_match.view_name = f'{self.app_config_namespace}:article-detail'
+        plugin = api.add_plugin(
+            self.placeholder, 'NewsBlogRelatedPlugin', self.language, select_only_current_language=True)
+        html = self._render_plugin(plugin, resolver_match=resolver_match)
+        self.assertHTMLEqual(html, """
+            <ul>
+                <li>
+                    <h3><a href="/en/page/second-page/">Second page</a></h3>
+                    <p>by <a href="#">1</a> Sept. 24, 2026</p>
+                </li>
+            </ul>""")
