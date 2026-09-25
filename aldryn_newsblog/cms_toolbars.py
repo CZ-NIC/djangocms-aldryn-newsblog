@@ -5,7 +5,6 @@ from django.utils.translation import gettext as _
 from django.utils.translation import override
 
 from cms.models.contentmodels import PageContent
-from cms.toolbar.items import ButtonList
 from cms.toolbar_base import CMSToolbar
 from cms.toolbar_pool import toolbar_pool
 
@@ -29,6 +28,7 @@ class NewsBlogToolbar(CMSToolbar):
             return reverse(f'{article.app_config.namespace}:article-list')
 
     def populate(self):
+        self.aldryn_newsblog_slug = None
         if not self.is_current_app:
             return
 
@@ -89,6 +89,7 @@ class NewsBlogToolbar(CMSToolbar):
         """Enable edit PageContent."""
         try:
             view_func, args, kwargs = resolve(self.request.path)
+            self.aldryn_newsblog_slug = kwargs.get("slug")
         except Resolver404:
             content_type_obj = PageContent.objects.get(page=self.request.current_page, language=language)
         else:
@@ -108,22 +109,8 @@ class NewsBlogToolbar(CMSToolbar):
 
     def post_template_populate(self):
         # Disable call self.add_wizard_button().
-        self.render_object_editable_buttons()
-
-    def render_object_editable_buttons(self):
-        self.add_article_button()
-
-    def add_article_button(self):
-        obj = self.request.toolbar.get_object()
-        if obj is None or not isinstance(obj, Article):
-            return
-        with override(get_language_from_request(self.request)):
-            url = obj.get_absolute_url()
-        item = ButtonList(side=self.toolbar.RIGHT)
-        item.add_button(
-            _('View Published'),
-            url=url,
-            disabled=False,
-            extra_classes=['cms-btn'],
-        )
-        self.toolbar.add_item(item)
+        if self.aldryn_newsblog_slug is not None:
+            # It is not possible to edit the placeholder in the article.
+            # Do not display edit buttons for the placeholder on the article page.
+            self.toolbar.right_items = []
+            self.toolbar.last_right_items = []
