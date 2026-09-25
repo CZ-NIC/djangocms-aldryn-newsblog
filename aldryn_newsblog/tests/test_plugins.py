@@ -12,7 +12,7 @@ from cms.plugin_rendering import ContentRenderer
 
 from freezegun import freeze_time
 
-from aldryn_newsblog.models import Article, NewsBlogConfig
+from aldryn_newsblog.models import NewsBlogConfig
 
 from .mixins import NewsBlogTestCase
 
