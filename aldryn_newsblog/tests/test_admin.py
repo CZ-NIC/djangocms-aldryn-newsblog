@@ -83,7 +83,6 @@ class ArticleAdminTest(NewsBlogTestCase):
                 </li>
             </ul>""", html=True)
 
-
     @override_settings(ALDRYN_NEWSBLOG_FETCH_RELATED_ARTICLES=True)
     def test_article_change_js(self):
         self.client.force_login(self.admin)

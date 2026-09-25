@@ -467,9 +467,14 @@ class RelatedArticles(View):
         if not self.has_view_or_change_permission(request, article):
             return JsonResponse(data, status=403)
 
-        qs = Article.objects.values_list(
-            'pk', 'translations__title', 'publishing_date').filter(app_config=app_config).order_by('pk').distinct('pk')
+        qs = Article.objects.values_list('pk', 'translations__title', 'publishing_date').filter(app_config=app_config)
         if article_id is not None:
             qs = qs.exclude(pk__in=(article.pk, ) + tuple(article.related.values_list('pk', flat=True)))
-        data["articles"] = [(opt[0], opt[1]) for opt in sorted(qs, key=lambda item: item[2], reverse=True)]
+        # Remove duplicities.
+        options, used = [], []
+        for item in qs:
+            if item[0] not in used:
+                used.append(item[0])
+                options.append(item)
+        data["articles"] = [(opt[0], opt[1]) for opt in sorted(options, key=lambda item: item[2], reverse=True)]
         return JsonResponse(data)
