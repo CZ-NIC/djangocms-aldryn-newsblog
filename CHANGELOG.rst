@@ -9,6 +9,7 @@ Unreleased
 
 * Add field select_only_current_language into NewsBlogFeaturedArticlesPlugin, NewsBlogLatestArticlesPlugin, NewsBlogRelatedPlugin.
 * Do not display edit buttons for the placeholder on the article page.
+* Add distinct into list of articles inRelatedArticles view.
 
 4.3.0 (2026-09-18)
 ==================
