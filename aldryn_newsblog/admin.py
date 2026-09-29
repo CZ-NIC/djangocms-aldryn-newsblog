@@ -244,8 +244,17 @@ class NewsBlogConfigAdmin(
             'app_title', 'permalink_type', 'non_permalink_handling',
             'template_prefix', 'paginate_by', 'pagination_pages_start',
             'pagination_pages_visible', 'exclude_featured',
-            'create_authors', 'hide_author', 'author_no_photo', 'search_indexed', 'config.default_published',
+            'create_authors', 'hide_author', 'author_no_photo', 'search_indexed',
         )
+
+    def get_fieldsets(self, request, obj):
+        fields = self.get_config_fields()
+        if request.user.has_perm("aldryn_newsblog.change_section"):
+            fields += ('config.default_published',)
+        return [
+            (None, {"fields": ("type", "namespace")}),
+            (_("Config"), {"fields": fields}),
+        ]
 
 
 admin.site.register(models.NewsBlogConfig, NewsBlogConfigAdmin)

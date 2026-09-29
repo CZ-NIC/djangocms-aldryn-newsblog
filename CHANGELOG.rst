@@ -4,6 +4,11 @@ Changelog
 Unreleased
 ==========
 
+4.4.1 (2026-09-29)
+==================
+
+* Fix get_config_fields in NewsBlogConfigAdmin.
+
 4.4.0 (2026-09-25)
 ==================
 
