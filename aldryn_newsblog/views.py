@@ -22,6 +22,7 @@ from aldryn_newsblog.cms_appconfig import NewsBlogConfig
 from aldryn_newsblog.compat import toolbar_edit_mode_active
 from aldryn_newsblog.utils.utilities import get_valid_languages_from_request
 
+from .language_changer import LanguageChanger
 from .models import Article
 from .utils import add_prefix_to_path
 
@@ -235,6 +236,8 @@ class ArticleListBase(AppConfigMixin, AppHookCheckMixin, TemplatePrefixMixin,
             context['aldryn_newsblog_display_author_no_photo'] = self.config.author_no_photo
             context['aldryn_newsblog_hide_author'] = self.config.hide_author
             context['aldryn_newsblog_template_prefix'] = self.config.template_prefix
+        # Resolve the path to the lists for the year and category.
+        self.request._language_changer = LanguageChanger(self.request)
         return context
 
 

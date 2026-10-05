@@ -4,6 +4,11 @@ Changelog
 Unreleased
 ==========
 
+4.4.2 (2026-10-05)
+==================
+
+* Add language_changer to fix resolving the path to the lists for the year and category.
+
 4.4.1 (2026-09-29)
 ==================
 
